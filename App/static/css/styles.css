@@ -1,0 +1,28 @@
+ul.errorList li {
+    color: #ff0000;
+}
+
+.leaflet-container {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.leaflet-popup-content {
+    font-size: 14px;
+}
+
+.link-disabled {
+    color: #808080;
+}
+
+a.danger {
+    color: #ff0000;
+}
+
+span.bold {
+    font-weight: bold;
+}
+
+#map{
+    height: 450px; 
+}

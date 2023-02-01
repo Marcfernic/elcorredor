@@ -1,0 +1,16 @@
+{% extends "base_generic.html" %}
+{% block content %}
+  {% if user.is_superuser %}
+
+    <h1>Propidad verificada correctamente</h1>
+
+    <p>Puedes seguir verificando propiedades<a href="{% url 'unverified_properties'%}"> aqui</a></p>
+    
+  {% else %}
+
+    <h1>Restricción</h1>
+
+    <p>Si estas leyendo esto es que no deberias estar aqui, por favor abandona esta sección</p>
+    
+  {% endif %}
+{% endblock %}

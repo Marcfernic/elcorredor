@@ -1,0 +1,61 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+
+<h1>Mi perfil</h1>
+
+<div class="row">
+  <div class="col-xs-12 col-md-3">
+    <p>Nombre: <strong>{{ user.first_name }}</strong></p>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-xs-12 col-md-3">
+    <p>Apellidos: <strong>{{ user.last_name }}</strong></p>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-xs-12 col-md-4">
+    <p><a href="{% url 'user_update' user.pk %}">Modificar mis datos</a></p>
+    <p><a href="{% url 'email_update_request' %}">Modificar mi email</a></p>
+    <p><a href="{% url 'user_delete' user.pk %}">Eliminar mi cuenta</a></p><br>
+    <p><a href="{% url 'property_create' %}">Poner una propiedad a la venta</a></p>
+  </div>
+</div>
+
+{% if properties %}
+<div class="row">
+  <div class="col-xs-12 col-md-8">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Referencia catastral</th>
+          <th>Precio</th>
+          <th>A la venta desde</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for property in properties %}
+        <tr>
+          <td>{{ property.catastral_reference }}</td>
+          <td>{{ property.price }}</td>
+          <td>{{ property.created_at }}</td>
+          <td class="{{ property.status_css_class }}">
+            {{ property.status }}
+          </td>
+          <td><a href="{% url 'property_delete' property.pk %}" class="danger">Eliminar</a></td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% else %}
+  <p>No tienes ninguna propiedad a la venta.</p>
+{% endif %}
+
+{% endblock %}

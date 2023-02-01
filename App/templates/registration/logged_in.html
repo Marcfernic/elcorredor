@@ -1,0 +1,14 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+{% if request.user.id == user.id %}
+<h1>Has iniciado sesión</h1>
+
+<p>Si lo deseas puedes ir al <a href="{% url 'index'%}">Inicio</a> o ver tu <a href="{% url 'user_profile'%}">Perfil de usuario</a></p>
+{% else %}
+<div class="form-group">
+  <h1>Error</h1>
+  <p>Si lo deseas puedes ir al <a href="{% url 'index'%}">Inicio</a> para repetir</p>
+</div>
+{% endif %}
+{% endblock %}

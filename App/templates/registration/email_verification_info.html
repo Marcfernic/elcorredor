@@ -1,0 +1,9 @@
+{% block content %}
+
+<p>Para poder realizar ciertas acciones en la web necesitas verificar que el email que has asignado a tu cuenta de usuario te pertenece.<br>Te hemos mandado un correo electrónico a tu email con un enlace de confirmación.<br>Tienes que hacer click en dicho enlace para confirmar tu email.</p>
+
+<p>Si no has recibido el correo electrónico, puedes volver a solicitarlo <a href="{% url 'email_verification_request'%}">aquí</a></p>
+
+<p>Si has cometido un error en el email y quieres cambiarlo por otro, lo puedes hacer <a href="{% url 'email_update_request'%}">aquí</a></p>
+
+{% endblock %}

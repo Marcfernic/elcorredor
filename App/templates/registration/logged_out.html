@@ -1,0 +1,14 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+{% if user.is_authenticated %}
+	<div class="form-group">
+	  <h1>Error</h1>
+	  <p>No tiene autorizacion para realizar la acción</p>
+	</div>
+{% else %}
+	<h1>Has cerrado sesión</h1>
+
+	<p>Si lo deseas puedes volver a <a href="{% url 'login'%}">Loguearte</a> o ir al <a href="{% url 'index'%}">Inicio</a></p>
+{% endif %}
+{% endblock %}

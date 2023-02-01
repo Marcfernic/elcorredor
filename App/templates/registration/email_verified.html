@@ -1,0 +1,10 @@
+{% extends "base_generic.html" %}
+{% block content %}
+
+<h1>Email verificado correctamente</h1>
+
+{% if not request.user.is_authenticated %}
+  <p>Ya puedes <a href="{% url 'login'%}">Loguearte</a></p>
+{% endif %}
+
+{% endblock %}

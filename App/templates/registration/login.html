@@ -1,0 +1,45 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <br>
+  {% if form.errors %}
+  <p>Tu usuario y contraseña no coinciden. Por favor, vuelve a intentarlo</p>
+  {% endif %}
+
+
+  {% if user.is_authenticated %}
+  <p>Su cuenta no tiene acceso a esta página. Para continuar,
+      por favor, inicie sesión con una cuenta que tenga acceso.</p>
+  {% else %}
+  <h1>Login</h1>
+
+  <div class="row">
+    <div class="col-xs-12 col-md-3">
+      <form method="post" action="{% url 'login' %}">
+        {% csrf_token %}
+
+        <div class="form-group">
+          <label>Nombre de usuario</label>
+          <input type="text" name="username" class="form-control">{{ username }}</input>
+        </div>
+        <div class="form-group">
+          <label>Contraseña</label>
+          <input type="password" name="password" class="form-control">{{ password }}</input>
+        </div>
+        <input type="hidden" name="next" value="{{ next }}" />
+        <button type="submit" class="btn btn-default navbar-btn">Entrar</button>
+      </form>
+
+      {# Por si acaso no tiene cuenta #}
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-12 col-md-4">
+      <p>Si has olvidado tu contraseña puedes <a href="{% url 'password_reset' %}">Resetear la contraseña</a></p>
+      <p>Si no tienes cuenta puedes <a href="{% url 'user_create' %}">Registrarte</a></p>
+    </div>
+  </div>
+
+  {% endif %}
+{% endblock %}

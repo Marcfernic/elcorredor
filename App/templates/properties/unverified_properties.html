@@ -1,0 +1,47 @@
+{% extends "base_generic.html" %}
+{% block content %}
+
+{% if user.is_superuser %}
+	<h1>Estos son las propiedades que esperan a ser verificadas</h1>
+	{% if properties %}
+	<div class="row">
+	  <div class="col-xs-12 col-md-8">
+	    <table class="table">
+	      <thead>
+	        <tr>
+	          <th>Referencia catastral</th>
+	          <th>Precio</th>
+	          <th>A la venta desde</th>
+	          <th>Acciones</th>
+	        </tr>
+	      </thead>
+	      <tbody>
+	      {% for property in properties %}
+	        <tr>
+	          <td>{{ property.catastral_reference }}</td>
+	          <td>{{ property.price }}</td>
+	          <td>{{ property.created_at }}</td>
+	          <td>
+              <form action="{% url 'verify_property' %}" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="property_id" value="{{ property.id }}" />
+                <a href="#" class="success" onclick="this.parentNode.submit()">Verificar</a>
+              </form>
+            </td>
+	        </tr>
+	      {% endfor %}
+	      </tbody>
+	    </table>
+	  </div>
+	</div>
+	{% else %}
+	  <p>No tienes ninguna propiedad que espere a estar verificada; ¡Enhorabuena!</p>
+	{% endif %}
+{% else %}
+	<div class="form-group">
+	  <h1>Error</h1>
+	  <p>No tiene autorizacion para visualizar el contenido</p>
+	</div>
+{% endif %}
+
+{% endblock %}

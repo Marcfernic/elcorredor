@@ -1,0 +1,8 @@
+{% extends "base_generic.html" %}
+{% block content %}
+
+<h1>Error al verificar el email</h1>
+
+<p>El enlace para verificar el email no es válido. Posiblemente porque ha caducado o ya ha sido usado. Puedes solicitar una nuevo <a href="{% url 'email_verification_request' %}">aquí</a></p>
+
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+
+{% if request.user.id == user.id %}
+<h1>Borrar cuenta</h1>
+
+<p>¿Estas seguro de que quieres borrar tu registro, {{ user.username }}?</p>
+
+<form action="" method="POST">
+  <div class="form-group">
+    {% csrf_token %}
+  </div>
+  <button type="submit" class="btn btn-default navbar-btn">Eliminar</button>
+</form>
+{% else %}
+<div class="form-group">
+  <h1>Error</h1>
+  <p>No tiene autorizacion para modificar el contenido</p>
+</div>
+{% endif %}
+{% endblock %}

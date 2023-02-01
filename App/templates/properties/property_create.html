@@ -1,0 +1,33 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+
+<h1>Registro de propiedad</h1>
+
+<div class="row">
+  <div class="col-xs-12 col-md-3">
+    <form action="{% url 'create_property' %}" method="post">
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="catastral_reference">Referencia catastral</label>
+        <input type="text" required="" pattern=".{14}" title="La referencia catastral debe tener 14 carácteres" maxlength="14" id="catastral_reference" name="catastral_reference" class="form-control" value="{{ catastral_reference }}"></input>
+        <p>(los primeros 14 carácteres)</p>
+      </div>
+      {% if catastral_reference_errors is not None %}
+        <p></p>
+        <ul class="errorlist">
+        {% for error in catastral_reference_errors %}
+        <li>{{ error }}</li>
+        {% endfor %}
+        </ul>
+        <p></p>
+      {% endif %}
+      <div class="form-group">
+        <label for="price">Precio</label>
+        <input type="number" required="" id="price" name="price"  step="0.01" class="form-control" value="{{ price }}"></input>
+      </div>
+      <button type="submit" class="btn btn-default navbar-btn">Ingresar propiedad</button>
+    </form>
+  </div>
+</div>
+{% endblock %}
