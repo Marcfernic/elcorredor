@@ -1,7 +1,7 @@
 """Gunicorn *production* config file"""
 
 # Django WSGI application path in pattern MODULE_NAME:VARIABLE_NAME
-wsgi_app = "elcorredorprototipo.wsgi:application"
+wsgi_app = "elcorredor.wsgi:application"
 # The granularity of Error log outputs
 loglevel = "debug"
 # The number of worker processes for handling requests
@@ -20,4 +20,4 @@ pidfile = "/var/run/gunicorn/production.pid"
 daemon = True
 
 
-# EXECUTE gunicorn -c elcorredorprototipo/config/gunicorn/production.py
+# EXECUTE gunicorn -c elcorredor/config/gunicorn/production.py

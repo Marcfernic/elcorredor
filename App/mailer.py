@@ -1,5 +1,5 @@
 from App.mailjet import Mailjet
-from elcorredorprototipo import settings
+from elcorredor import settings
 import os
 
 class Mailer(object):
