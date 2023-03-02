@@ -2,12 +2,25 @@ body{
     background: linear-gradient(to left, #11998e, #38ef7d);
 }
 
-ul.errorList li {
-    color: #ff0000;
+.leaflet-container {
+    max-width: 750px;
+    max-height: 400px;
+}
+
+.leaflet-popup-content {
+    font-size: 14px;
+}
+
+#map{
+    height: 450px; 
 }
 
 .link-disabled {
     color: #808080;
+}
+
+ul.errorList li {
+    color: #ff0000;
 }
 
 a.danger {
