@@ -3,8 +3,8 @@ body{
 }
 
 .leaflet-container {
-    max-width: 750px;
-    max-height: 400px;
+    max-width: 800px;
+    max-height: 750px;
 }
 
 .leaflet-popup-content {
@@ -29,4 +29,23 @@ a.danger {
 
 span.bold {
     font-weight: bold;
+}
+
+#as{
+    background: rgb(0,255,231);
+    background: radial-gradient(circle, rgba(0,255,231,1) 15%, rgba(0,104,255,1) 65%, rgba(9,9,121,1) 100%);  
+}
+
+.container-fluid {
+  margin-right: auto;
+  margin-left: auto;
+  max-width: 950px;
+}
+
+.padding-top{
+    padding: 1% 0 0 0;
+}
+
+.padding-left{
+    padding: 0 0 0 1%;
 }

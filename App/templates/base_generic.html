@@ -1,22 +1,22 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
+  <head>
 
-  {% block title %}   <title>El Corredor</title> {% endblock %}
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.2/dist/leaflet.css" integrity="sha256-sA+zWATbFveLLNqWO2gtiw3HL/lh1giY/Inf1BJ0z14=" crossorigin=""/>
-  
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  <script src="https://unpkg.com/leaflet@1.9.2/dist/leaflet.js" integrity="sha256-o9N1jGDZrf5tS+Ft4gbIK7mYMipq9lqpVJ91xHSyKhg=" crossorigin=""></script>
+    {% block title %}   <title>El Corredor</title> {% endblock %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.2/dist/leaflet.css" integrity="sha256-sA+zWATbFveLLNqWO2gtiw3HL/lh1giY/Inf1BJ0z14=" crossorigin=""/>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.2/dist/leaflet.js" integrity="sha256-o9N1jGDZrf5tS+Ft4gbIK7mYMipq9lqpVJ91xHSyKhg=" crossorigin=""></script>
 
-  <!-- Add additional CSS in static file -->
-  {% load static %}
-  <link rel="stylesheet" href="{% static 'css/styles.css' %}">  
+    <!-- Add additional CSS in static file -->
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">  
   
- </head>
+  </head>
     {% block body %}
     {% endblock %}
   <body>
@@ -36,35 +36,28 @@
         </div>
 
         <!-- Version Extendida -->
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-          <ul class="nav navbar-nav">
+        <ul class="nav nav-tabs">
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <div class="row">
               {% if user.is_authenticated %}
-                <div class="col-xs-12 col-sm-2"><li><a class="navbar-brand">{{ request.user.get_username }}</a></li></div>
-                <div class="col-xs-12 col-sm-2"><li class="{{ request|active_class_for:'user_profile' }}"><a class="navbar-brand" href="{% url 'user_profile' %}">Perfil</a></li></div>
+                <span class="col-xs-12 col-sm-1"><li class="{{ request|active_class_for:'user_profile' }}"><a class="navbar-brand" href="{% url 'user_profile' %}">Perfil</a></li></span>
                   {% if user.is_superuser %}
-                    <div class="col-xs-12 col-sm-2"><li class="{{ request|active_class_for:'unverified_properties' }}"><a class="navbar-brand" href="{% url 'unverified_properties' %}">Verificar</a></li></div>
+                    <span class="col-xs-12 col-sm-1"><li class="{{ request|active_class_for:'unverified_properties' }}"><a class="navbar-brand" href="{% url 'unverified_properties' %}">Verificar</a></li></span>
                   {% endif %}
-                <div class="col-xs-12 col-sm-2"><li><a class="navbar-brand" href="{% url 'logout' %}">Salir</a></li></div>
+                <li class="col-xs-12 col-sm-1"><a class="navbar-brand" href="{% url 'logout' %}">Salir</a></li>
               {% else %}
-                <div class="col-xs-12 col-sm-2"><li><a class="navbar-brand">Invitado</a></li></div>
-                <div class="col-xs-12 col-sm-2"><li class="{{ request|active_class_for:'login' }}"><a class="navbar-brand" href="{% url 'login' %}">Login</a></li></div>
-                <div class="col-xs-12 col-sm-2"><li class="{{ request|active_class_for:'user_create' }}"><a class="navbar-brand" href="{% url 'user_create' %}">Registro</a></li></div>
+                <span class="col-xs-12 col-sm-1 padding-left"><li role="presentation" class="{{ request|active_class_for:'login' }}"><a class="navbar-brand" href="{% url 'login' %}">Login</a></li></span>
+                <span class="col-xs-12 col-sm-1 padding-left"><li role="presentation" class="{{ request|active_class_for:'user_create' }}"><a class="navbar-brand" href="{% url 'user_create' %}">Registro</a></li></span>
               {% endif %}
-              <div class="col-xs-12 col-sm-6">
-                <p></p>
-                <div class="form-group">
-                  <div class="col-xs-10 col-sm-10 ">
-                    <input type="text" class="form-control" placeholder="Search">
-                  </div>
-                  <div class="col-xs-1 col-sm-1">
-                    <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
-                  </div>
-                </div>
-              </div>
+              <span class="col-xs-10 col-sm-3" style="padding: 1% 1% 0 3%;">
+                <input type="text" class="form-control" placeholder="Search">
+              </span>
+              <span class="col-xs-1 padding-top">
+                <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
+              </span>
             </div>
-          </ul>
-        </div>
+          </div>
+        </ul>
       </div>
     </nav>
 
