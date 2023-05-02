@@ -6,11 +6,14 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.2/dist/leaflet.css" integrity="sha256-sA+zWATbFveLLNqWO2gtiw3HL/lh1giY/Inf1BJ0z14=" crossorigin=""/>
-    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://unpkg.com/leaflet@1.9.2/dist/leaflet.js" integrity="sha256-o9N1jGDZrf5tS+Ft4gbIK7mYMipq9lqpVJ91xHSyKhg=" crossorigin=""></script>
+    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
 
     <!-- Add additional CSS in static file -->
     {% load static %}
@@ -42,19 +45,13 @@
               {% if user.is_authenticated %}
                 <span class="col-xs-12 col-sm-1"><li class="{{ request|active_class_for:'user_profile' }}"><a class="navbar-brand" href="{% url 'user_profile' %}">Perfil</a></li></span>
                   {% if user.is_superuser %}
-                    <span class="col-xs-12 col-sm-1"><li class="{{ request|active_class_for:'unverified_properties' }}"><a class="navbar-brand" href="{% url 'unverified_properties' %}">Verificar</a></li></span>
+                    <span class="col-xs-12 col-sm-1 padding-left"><li class="{{ request|active_class_for:'unverified_properties' }}"><a class="navbar-brand" href="{% url 'unverified_properties' %}">Verificar</a></li></span>
                   {% endif %}
                 <li class="col-xs-12 col-sm-1"><a class="navbar-brand" href="{% url 'logout' %}">Salir</a></li>
               {% else %}
-                <span class="col-xs-12 col-sm-1 padding-left"><li role="presentation" class="{{ request|active_class_for:'login' }}"><a class="navbar-brand" href="{% url 'login' %}">Login</a></li></span>
-                <span class="col-xs-12 col-sm-1 padding-left"><li role="presentation" class="{{ request|active_class_for:'user_create' }}"><a class="navbar-brand" href="{% url 'user_create' %}">Registro</a></li></span>
+                <span class="col-xs-12 col-sm-1"><li role="presentation" class="{{ request|active_class_for:'login' }}"><a class="navbar-brand" href="{% url 'login' %}">Login</a></li></span>
+                <span class="col-xs-12 col-sm-1"><li role="presentation" class="{{ request|active_class_for:'user_create' }}"><a class="navbar-brand" href="{% url 'user_create' %}">Registro</a></li></span>
               {% endif %}
-              <span class="col-xs-10 col-sm-3" style="padding: 1% 1% 0 3%;">
-                <input type="text" class="form-control" placeholder="Search">
-              </span>
-              <span class="col-xs-1 padding-top">
-                <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
-              </span>
             </div>
           </div>
         </ul>
