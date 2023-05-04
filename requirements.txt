@@ -10,3 +10,6 @@ requests==2.28.1
 sqlparse==0.4.3
 urllib3==1.26.12
 xmltodict==0.13.0
+leaflet==0.0.3
+django-leaflet==0.28.3
+django-password-validators==1.7.0
