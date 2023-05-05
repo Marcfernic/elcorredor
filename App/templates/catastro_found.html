@@ -27,6 +27,6 @@
   <p>Para saber si esta propiedad está a la venta necesitas estar <a href="{% url 'user_create' %}">registrado</a> y <a href="{% url 'login' %}">logueado</a></p>
 {% endif %}
 <h3>Más datos</h3>
-<p>Si deseas obtener más datos sobre la propiedad introduce la referencia catastral en <a href="https://www1.sedecatastro.gob.es/CYCBienInmueble/OVCBusqueda.aspx" target="_blank">la web oficial del catastro</a></p>
-
+<p>Si deseas obtener más datos sobre la propiedad introduce la referencia catastral en la web oficial del catastro</p>
+<iframe id="encode" src="https://www1.sedecatastro.gob.es/CYCBienInmueble/OVCBusqueda.aspx" target="_blank"></iframe>
 {% endblock %}
