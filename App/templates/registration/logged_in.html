@@ -1,14 +1,26 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-{% if request.user.id == user.id %}
-<h1>Has iniciado sesión</h1>
+<body>
 
-<p>Si lo deseas puedes ir al <a href="{% url 'index'%}">Inicio</a> o ver tu <a href="{% url 'user_profile'%}">Perfil de usuario</a></p>
-{% else %}
-<div class="form-group">
-  <h1>Error</h1>
-  <p>Si lo deseas puedes ir al <a href="{% url 'index'%}">Inicio</a> para repetir</p>
-</div>
-{% endif %}
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="panel col-sm-offset-2">
+          {% if request.user.id == user.id %}
+          <h1 class="col-xs-offset-1 col-sm-offset-2 col-md-offset-3 col-lg-offset-4">Has iniciado sesión</h1>
+
+          <p class="col-xs-offset-1 col-md-offset-2 col-lg-offset-3">¡Enhorabuena! Ahora; Si lo deseas, puedes ir al <a href="{% url 'index'%}">Inicio</a> o ver tu <a href="{% url 'user_profile'%}">Perfil de usuario</a></p>
+          {% else %}
+          <div class="form-group">
+            <h1 class="col-xs-offset-1 col-sm-offset-3 col-md-offset-4 col-lg-offset-5">Error</h1>
+            <p class="col-xs-offset-1 col-md-offset-3">Si lo deseas puedes ir al <a href="{% url 'index'%}">Inicio</a> para repetir</p>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
 {% endblock %}

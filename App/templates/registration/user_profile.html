@@ -1,61 +1,69 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
+<body>
+  
+  <div class="container-fluid panel col-sm-offset-3">
 
-<h1>Mi perfil</h1>
+    <div class="row">
+      <div class="col-xs-12">
+        <h1 class="col-xs-offset-3 col-sm-offset-5">Mi perfil</h1>
+        <p><label>Nombre: <strong>{{ user.first_name }}</strong></label></p>
+        <p><label>Apellidos: <strong>{{ user.last_name }}</strong></label></p>
 
-<div class="row">
-  <div class="col-xs-12 col-md-3">
-    <p>Nombre: <strong>{{ user.first_name }}</strong></p>
-  </div>
-</div>
+        <div class="alert alert-success col-xs-5 col-sm-4 col-md-3 col-xs-offset-1 col-sm-offset-1 col-md-offset-2" role="alert">
+          <a href="{% url 'property_create' %}" class="col-lg-offset-3 alert-link">Subir propiedad</a>
+        </div>
 
-<div class="row">
-  <div class="col-xs-12 col-md-3">
-    <p>Apellidos: <strong>{{ user.last_name }}</strong></p>
-  </div>
-</div>
+        <div class="alert alert-info col-xs-5 col-sm-4 col-md-3 col-xs-offset-1 col-sm-offset-1 col-md-offset-2" role="alert">
+          <a href="{% url 'user_update' user.pk %}" class="col-lg-offset-3 alert-link">Modificar datos</a>
+        </div>
 
-<div class="row">
-  <div class="col-xs-12 col-md-4">
-    <p><a href="{% url 'user_update' user.pk %}">Modificar mis datos</a></p>
-    <p><a href="{% url 'email_update_request' %}">Modificar mi email</a></p>
-    <p><a href="{% url 'user_delete' user.pk %}">Eliminar mi cuenta</a></p><br>
-    <p><a href="{% url 'property_create' %}">Poner una propiedad a la venta</a></p>
-  </div>
-</div>
+        <div class="alert alert-warning col-xs-5 col-sm-4 col-md-3 col-xs-offset-1 col-sm-offset-1 col-md-offset-2" role="alert">
+          <a href="{% url 'email_update_request' %}" class="col-lg-offset-3 alert-link">Modificar email</a>
+        </div>
 
-{% if properties %}
-<div class="row">
-  <div class="col-xs-12 col-md-8">
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Referencia catastral</th>
-          <th>Precio</th>
-          <th>A la venta desde</th>
-          <th>Estado</th>
-          <th>Acciones</th>
-        </tr>
-      </thead>
-      <tbody>
-      {% for property in properties %}
-        <tr>
-          <td>{{ property.catastral_reference }}</td>
-          <td>{{ property.price }}</td>
-          <td>{{ property.created_at }}</td>
-          <td class="{{ property.status_css_class }}">
-            {{ property.status }}
-          </td>
-          <td><a href="{% url 'property_delete' property.pk %}" class="danger">Eliminar</a></td>
-        </tr>
-      {% endfor %}
-      </tbody>
-    </table>
-  </div>
-</div>
-{% else %}
-  <p>No tienes ninguna propiedad a la venta.</p>
-{% endif %}
+        <div class="alert alert-danger col-xs-5 col-sm-4 col-md-3 col-xs-offset-1 col-sm-offset-1 col-md-offset-2" role="alert">
+          <a href="{% url 'user_delete' user.pk %}" class="col-lg-offset-3 alert-link">Eliminar cuenta</a>
+        </div>
 
+      </div>
+    </div>
+
+    {% if properties %}
+    <div class="row">
+      <div class="col-xs-12 col-md-8 panel">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Referencia catastral</th>
+              <th>Precio</th>
+              <th>A la venta desde</th>
+              <th>Estado</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+          {% for property in properties %}
+            <tr>
+              <td>{{ property.catastral_reference }}</td>
+              <td>{{ property.price }}</td>
+              <td>{{ property.created_at }}</td>
+              <td class="{{ property.status_css_class }}">
+                {{ property.status }}
+              </td>
+              <td><a href="{% url 'property_delete' property.pk %}" class="danger">Eliminar</a></td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    {% else %}
+      <p class="col-xs-offset-1 col-sm-offset-3 col-md-offset-4 text-danger"><b><span class="bg-danger">No subiste ninguna propiedad.</span></b></p>
+    {% endif %}
+    
+  </div>  
+
+</body>
 {% endblock %}

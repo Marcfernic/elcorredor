@@ -1,22 +1,25 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
+<div class="row">
+  <div class="col-xs-12 col-md-3 panel">
+    {% if request.user.id == property.user.id %}
+    <h1 class="col-xs-offset-4">Borrar propiedad</h1>
 
-{% if request.user.id == property.user.id %}
-<h1>Borrar cuenta</h1>
+    <p class="col-xs-offset-1 col-sm-offset-3">¿Estas seguro de que quieres eliminar de nuestra web tu propiedad con referencia catastral {{ property.catastral_reference }}?</p>
 
-<p>¿Estas seguro de que quieres eliminar de nuestra web tu propiedad con referencia catastral {{ property.catastral_reference }}?</p>
-
-<form action="" method="POST">
-  <div class="form-group">
-    {% csrf_token %}
+    <form action="" method="POST">
+      <div class="form-group">
+        {% csrf_token %}
+      </div>
+      <button type="submit" class="btn btn-danger navbar-btn">Eliminar</button>
+    </form>
+    {% else %}
+    <div class="form-group">
+      <h1 class="col-xs-offset-5">Error</h1>
+      <p class="col-xs-offset-1 col-sm-offset-3">No tiene autorizacion para realizar la siguiente acción</p>
+    </div>
   </div>
-  <button type="submit" class="btn btn-default navbar-btn">Eliminar</button>
-</form>
-{% else %}
-<div class="form-group">
-  <h1>Error</h1>
-  <p>No tiene autorizacion para realizar la siguiente acción</p>
 </div>
 {% endif %}
 {% endblock %}

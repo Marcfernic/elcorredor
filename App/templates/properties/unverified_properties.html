@@ -2,10 +2,10 @@
 {% block content %}
 
 {% if user.is_superuser %}
-	<h1>Estos son las propiedades que esperan a ser verificadas</h1>
 	{% if properties %}
 	<div class="row">
-	  <div class="col-xs-12 col-md-8">
+	  <div class="col-xs-12 col-md-8 panel">
+	  	<h1>Estos son las propiedades que esperan a ser verificadas</h1>
 	    <table class="table">
 	      <thead>
 	        <tr>
@@ -35,12 +35,12 @@
 	  </div>
 	</div>
 	{% else %}
-	  <p>No tienes ninguna propiedad que espere a estar verificada; ¡Enhorabuena!</p>
+	  <p class="col-xs-offset-5">No tienes ninguna propiedad que espere a estar verificada; ¡Enhorabuena!</p>
 	{% endif %}
 {% else %}
-	<div class="form-group">
-	  <h1>Error</h1>
-	  <p>No tiene autorizacion para visualizar el contenido</p>
+	<div class="panel">
+	  <h1 class="col-xs-offset-4 col-sm-offset-5">Error</h1>
+	  <p class="col-xs-offset-1 col-sm-offset-3">No tiene autorizacion para visualizar el contenido</p>
 	</div>
 {% endif %}
 

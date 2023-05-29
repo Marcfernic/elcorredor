@@ -9,14 +9,14 @@
 <body>
 	<div class="container-fluid">
   		<div class="row">
-  			<div class="col-sm-12">
+  			<div class="col-xs-12 col-sm-offset-1">
 				<p>Bienvenido a <em><b>El Corredor</b></em>, para empezar debes compartir tu localización o buscar un punto en el mapa.</p> 
 				<button type="button" class="btn btn-default navbar-btn" onclick="getLocation()">Obtener mi localización</button>
 				<p id="location-error"></p>
 			</div>
 		</div>
 	</div>
-	<div id="map" class="map"></div>
+	<div id="map" class="map col-xs-offset-1"></div>
 </body>
 
 {% endblock %}

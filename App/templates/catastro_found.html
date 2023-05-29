@@ -1,32 +1,46 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-<h1>Catastro</h1>
+<body>
 
-<h2>Datos catastrales</h2>
-<p>Direccion: {{ address }}</p>
-<p>Referencia Catastral: <span id="reference">{{ catastral_reference }}</span></p>
-<p>
-  <span id="copyReference">
-    <a id="copyReferenceLink">Copiar Referencia Catastral en el portapapeles</a>
-  <span>
-</p>
-{% if user.is_authenticated %}
-  {% if property %}
-    {% if property.user.id == user.id %}
-      <p><span class="bg-success">Tú tienes esta propiedad a la venta</span></p>
-    {% else %}
-      <p><span class="bg-success">Esta propiedad está a la venta por <span class="bold">{{ property.price }}€</span></span></p>
-      <p>Si quieres contactar con el vendedor hazlo <a href="{% url 'property_contact' property.catastral_reference %}">aquí</a></p>
-    {% endif %}
-  {% else %}
-    <p><span class="bg-danger">Esta propiedad no está a la venta</span></p>
-    <i><b>Nótese que en esta web sólo tenemos información sobre propieades que sean un terreno rústico o un solar sin edificar.</b></i>
-  {% endif %}
-{% else %}
-  <p>Para saber si esta propiedad está a la venta necesitas estar <a href="{% url 'user_create' %}">registrado</a> y <a href="{% url 'login' %}">logueado</a></p>
-{% endif %}
-<h3>Más datos</h3>
-<p>Si deseas obtener más datos sobre la propiedad introduce la referencia catastral en la web oficial del catastro</p>
-<iframe id="encode" src="https://www1.sedecatastro.gob.es/CYCBienInmueble/OVCBusqueda.aspx" target="_blank"></iframe>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="panel">
+
+          <h1 class="col-xs-offset-4 col-sm-offset-5">Catastro</h1>
+
+          <h2 class="col-xs-offset-1 col-sm-offset-4">Datos catastrales</h2>
+          <ul>
+            <li>Direccion: {{ address }}</li>
+            <li>Referencia Catastral: <span id="reference">{{ catastral_reference }}</span>
+              <span id="copyReference">
+                <a id="copyReferenceLink">Copiar</a>
+              </span>
+            </li>
+          </ul>
+          {% if user.is_authenticated %}
+            {% if property %}
+              {% if property.user.id == user.id %}
+                <p class="col-xs-offset-1 col-sm-offset-4 text-success"><span class="bg-success">Tú tienes esta propiedad a la venta</span></p>
+              {% else %}
+                <p class="col-xs-offset-1 col-sm-offset-4 text-success"><span class="bg-success">Esta propiedad está a la venta por <span class="bold">{{ property.price }}€</span></span></p>
+                <p>Si quieres contactar con el vendedor hazlo <a href="{% url 'property_contact' property.catastral_reference %}">aquí</a></p>
+              {% endif %}
+            {% else %}
+              <p class="col-xs-offset-1 col-sm-offset-4 text-danger"><span class="bg-danger">Esta propiedad no está a la venta</span></p>
+              <i><b>Nótese que en esta web sólo tenemos información sobre propieades que sean un terreno rústico o un solar sin edificar.</b></i>
+            {% endif %}
+          {% else %}
+            <p>Para saber si esta propiedad está a la venta necesitas estar <a href="{% url 'user_create' %}">registrado</a> y <a href="{% url 'login' %}">logueado</a></p>
+          {% endif %}
+          <h3>Más datos</h3>
+          <p>Si deseas obtener más datos sobre la propiedad puedes introducir la referencia catastral en <a href="https://www1.sedecatastro.gob.es/CYCBienInmueble/OVCBusqueda.aspx">la web oficial del catastro</a></p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  
+</body>
 {% endblock %}

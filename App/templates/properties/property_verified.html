@@ -2,15 +2,23 @@
 {% block content %}
   {% if user.is_superuser %}
 
-    <h1>Propidad verificada correctamente</h1>
+    <div class="row">
+      <div class="col-xs-12 col-md-3 panel">
+        <h1 class="col-xs-offset-3">Propidad verificada correctamente</h1>
 
-    <p>Puedes seguir verificando propiedades<a href="{% url 'unverified_properties'%}"> aqui</a></p>
+        <p class="col-xs-offset-1 col-sm-offset-3">Puedes seguir verificando propiedades<a href="{% url 'unverified_properties'%}"> aqui</a></p>
+      </div>
+    </div>
     
   {% else %}
 
-    <h1>Restricción</h1>
+    <div class="row">
+      <div class="col-xs-12 col-md-3 panel">
+        <h1 class="col-xs-offset-4 col-sm-offset-5">Restricción</h1>
 
-    <p>Si estas leyendo esto es que no deberias estar aqui, por favor abandona esta sección</p>
+        <p class="col-xs-offset-1 col-sm-offset-3">Si estas leyendo esto es que no deberias estar aqui, por favor abandona esta sección</p>
+      </div>
+    </div>/
     
   {% endif %}
 {% endblock %}

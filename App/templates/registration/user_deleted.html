@@ -1,7 +1,19 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-<h1>Cuenta de usuario eliminada</h1>
+<body>
 
-<p>Volver a <a href="{% url 'user_create'%}">Registrarte</a> o ir al <a href="{% url 'index'%}">Inicio</a></p>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="panel">
+			<h1 class="col-xs-offset-3 col-sm-offset-4">Cuenta de usuario eliminada</h1>
+
+			<p>Volver a <a href="{% url 'user_create'%}">Registrarte</a> o ir al <a href="{% url 'index'%}">Inicio</a></p>
+		</div>
+      </div>
+    </div>
+  </div>
+
+</body>
 {% endblock %}

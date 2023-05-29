@@ -2,22 +2,17 @@ body{
     background: linear-gradient(to left, #11998e, #38ef7d);
 }
 
-.leaflet-container {
-    max-width: 1000px;
-    max-height: 750px;
-}
-
 .leaflet-popup-content {
     font-size: 14px;
 }
 
 #map{
     height: 450px; 
-    width: 950px;
+    max-width: 1300px;
 }
 
 .link-disabled {
-    color: #808080;
+    color: #2bd283;
 }
 
 ul.errorList li {
@@ -38,9 +33,7 @@ span.bold {
 }
 
 .container-fluid {
-  margin-right: auto;
-  margin-left: auto;
-  max-width: 1000px;
+  max-width: 1600px;
 }
 
 .padding-top{
@@ -51,7 +44,6 @@ span.bold {
     padding: 0 0 0 3%;
 }
 
-#encode{
-    height: 550px; 
-    width: 975px;
+.panel{
+   border: inset;
 }

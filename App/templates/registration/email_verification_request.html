@@ -1,20 +1,28 @@
 {% extends "base_generic.html" %}
 {% block content %}
+<body>
 
-<h1>Solicita tu email de verificación</h1>
+  <div class="container-fluid">
+    
+    <div class="row">
+      <div class="col-xs-12 col-md-3 panel">
+        <h1 class="col-xs-offset-1 col-sm-offset-3 col-md-offset-4 col-lg-offset-5">Solicita tu email de verificación</h1>
+        <form method="post">
+          {% csrf_token %}
 
-<div class="row">
-  <div class="col-xs-12 col-md-3">
-    <form method="post">
-      {% csrf_token %}
-
-      <div class="form-group">
-        <label for="id_email">Email</label>
-        <input type="email" name="email" id="id_email" required="" autocomplete="email" class="form-control"></input>
+          <div class="form-group">
+            <div class="col-sm-3 col-lg-2 col-sm-offset-2">
+              <label for="id_email">Email</label>
+            </div>
+            <div class="col-sm-5 col-lg-6 col-sm-offset-0">
+              <input type="email" name="email" id="id_email" required="" autocomplete="email" class="form-control"></input>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-default navbar-btn">Solicitar</button>
+        </form>
       </div>
-      <button type="submit" class="btn btn-default navbar-btn">Solicitar</button>
-    </form>
+    </div>
   </div>
-</div>
 
+</body>
 {% endblock %}

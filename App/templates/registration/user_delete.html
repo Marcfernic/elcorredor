@@ -1,22 +1,33 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
+<body>
 
-{% if request.user.id == user.id %}
-<h1>Borrar cuenta</h1>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-6 col-sm-offset-4 panel">
+        
+        {% if request.user.id == user.id %}
+          <h1 class="col-xs-offset-2 col-sm-offset-3 col-lg-offset-4">Borrar cuenta</h1>
 
-<p>¿Estas seguro de que quieres borrar tu registro, {{ user.username }}?</p>
+          <p class="col-sm-offset-2 col-md-offset-1 col-lg-offset-3">¿Estas seguro de que quieres borrar tu registro, {{ user.username }}?</p>
 
-<form action="" method="POST">
-  <div class="form-group">
-    {% csrf_token %}
+          <form action="" method="POST">
+            <div class="form-group">
+              {% csrf_token %}
+            </div>
+            <button type="submit" class="btn btn-danger navbar-btn col-xs-offset-4 col-md-offset-5 col-lg-offset-6" >Eliminar</button>
+          </form>
+        {% else %}
+          <div class="form-group">
+            <h1 class="col-xs-offset-4 col-sm-offset-5">Error</h1>
+            <p class="col-sm-offset-2 col-md-offset-1 col-lg-offset-3">No tiene autorizacion para modificar el contenido</p>
+          </div>
+
+      </div>
+    </div>
   </div>
-  <button type="submit" class="btn btn-default navbar-btn">Eliminar</button>
-</form>
-{% else %}
-<div class="form-group">
-  <h1>Error</h1>
-  <p>No tiene autorizacion para modificar el contenido</p>
-</div>
+
+</body>
 {% endif %}
 {% endblock %}
