@@ -1,14 +1,26 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-{% if user.is_authenticated %}
-	<div class="form-group">
-	  <h1>Error</h1>
-	  <p>No tiene autorizacion para realizar la acción</p>
-	</div>
-{% else %}
-	<h1>Has cerrado sesión</h1>
+<body>
 
-	<p>Si lo deseas puedes volver a <a href="{% url 'login'%}">Loguearte</a> o ir al <a href="{% url 'index'%}">Inicio</a></p>
-{% endif %}
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-xs-12 col-sm-10 col-md-12 col-lg-10 col-sm-offset-2 col-md-offset-0 col-lg-offset-1">
+        <div class="panel col-lg-8 col-xs-offset-0 col-md-offset-2 col-lg-offset-4">
+			{% if user.is_authenticated %}
+				<div class="form-group">
+				  <h1 class="col-xs-offset-4 col-sm-offset-5">Error</h1>
+				  <p>No tiene autorizacion para realizar la acción</p>
+				</div>
+			{% else %}
+				<h1 class="col-xs-offset-4 col-sm-offset-2 col-md-offset-3">Has cerrado sesión</h1>
+
+				<p class="col-xs-offset-1 col-sm-offset-2 col-md-offset-3">Si lo deseas puedes volver a <a href="{% url 'login'%}">Loguearte</a> o ir al <a href="{% url 'index'%}">Inicio</a></p>
+			{% endif %}
+		</div>
+      </div>
+    </div>
+  </div>
+
+</body>
 {% endblock %}

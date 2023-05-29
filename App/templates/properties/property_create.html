@@ -2,16 +2,18 @@
 
 {% block content %}
 
-<h1>Registro de propiedad</h1>
-
 <div class="row">
-  <div class="col-xs-12 col-md-3">
+  <div class="col-xs-10 col-xs-offset-1 col-sm-offset-2 col-md-offset-2 panel">
+    <h1 class="col-xs-offset-1 col-sm-offset-2 col-lg-offset-4">Registro de propiedad</h1>
     <form action="{% url 'create_property' %}" method="post">
       {% csrf_token %}
       <div class="form-group">
-        <label for="catastral_reference">Referencia catastral</label>
-        <input type="text" required="" pattern=".{14}" title="La referencia catastral debe tener 14 carácteres" maxlength="14" id="catastral_reference" name="catastral_reference" class="form-control" value="{{ catastral_reference }}"></input>
-        <p>(los primeros 14 carácteres)</p>
+        <div class="col-sm-4 col-md-3 col-sm-offset-2 col-md-offset-1">
+          <label for="catastral_reference">Referencia catastral</label>
+        </div>
+        <div class="col-sm-5 col-lg-6 col-md-offset-1 col-lg-offset-0">
+          <input type="text" required="" pattern=".{14}" title="La referencia catastral debe tener 14 carácteres" maxlength="14" id="catastral_reference" name="catastral_reference" class="form-control" value="{{ catastral_reference }}" placeholder="[Los primeros 14 carácteres]"></input>
+        </div>
       </div>
       {% if catastral_reference_errors is not None %}
         <p></p>
@@ -23,10 +25,14 @@
         <p></p>
       {% endif %}
       <div class="form-group">
-        <label for="price">Precio</label>
-        <input type="number" required="" id="price" name="price"  step="0.01" class="form-control" value="{{ price }}"></input>
+        <div class="col-sm-3 col-lg-2 col-sm-offset-2">
+          <label for="price">Precio</label>
+        </div>
+        <div class="col-sm-5 col-lg-6 col-sm-offset-1 col-md-offset-0">
+          <input type="number" required="" id="price" name="price"  step="0.01" class="form-control" value="{{ price }}" placeholder="0,00 €"></input>
+        </div>
       </div>
-      <button type="submit" class="btn btn-default navbar-btn">Ingresar propiedad</button>
+      <button type="submit" class="btn btn-primary navbar-btn col-xs-8 col-sm-4 col-xs-offset-2 col-sm-offset-4">Ingresar propiedad</button>
     </form>
   </div>
 </div>

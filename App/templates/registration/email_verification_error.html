@@ -1,8 +1,18 @@
 {% extends "base_generic.html" %}
 {% block content %}
+<body>
 
-<h1>Error al verificar el email</h1>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="panel">
+			<h1 class="col-xs-offset-1 col-sm-offset-3 col-md-offset-4 col-lg-offset-5">Error al verificar el email</h1>
 
-<p>El enlace para verificar el email no es válido. Posiblemente porque ha caducado o ya ha sido usado. Puedes solicitar una nuevo <a href="{% url 'email_verification_request' %}">aquí</a></p>
+			<p class="col-xs-offset-1 col-sm-offset-1 col-md-offset-2 col-lg-offset-3">El enlace para verificar el email no es válido. Posiblemente porque ha caducado o ya ha sido usado. Puedes solicitar una nuevo <a href="{% url 'email_verification_request' %}">aquí</a></p>
+		</div>
+      </div>
+    </div>
+  </div>
 
+</body>
 {% endblock %}

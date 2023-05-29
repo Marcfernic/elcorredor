@@ -1,31 +1,41 @@
 {% extends "base_generic.html" %}
 {% block content %}
+<body>
 
-<h1>Cambiar tu email</h1>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-xs-12 col-sm-offset-1 panel">
+        <h1 class="col-xs-offset-1 col-sm-offset-3 col-md-offset-4 col-lg-offset-5">Cambiar tu email</h1>
 
-<p>Para poder cambiar tu email, necesitarás confirmarlo con el correo electrónico que te enviaremos.</p>
+        <p class="col-xs-offset-1 col-sm-offset-1 col-md-offset-2 col-lg-offset-3">Para poder cambiar tu email, necesitarás confirmarlo con el correo electrónico que te enviaremos.</p>
 
-<div class="row">
-  <div class="col-xs-12 col-md-3">
-    <form method="post">
-      {% csrf_token %}
+        <div class="col-xs-12 col-md-10 col-sm-offset-1 col-lg-offset-2">
+          <form method="post">
+            {% csrf_token %}
 
-      <div class="form-group">
-        <label for="id_email">Nuevo email</label>
-        <input type="email" name="email" id="id_email" value="{{ email }}" required="" autocomplete="email" class="form-control"></input>
-        {% if errors is not None %}
-          <p></p>
-          <ul class="errorlist">
-          {% for error in errors %}
-          <li>{{ error }}</li>
-          {% endfor %}
-          </ul>
-          <p></p>
-      {% endif %}
+            <div class="col-sm-3 col-md-3 col-lg-2">
+              <label for="id_email">Nuevo email</label>
+            </div>
+            <div class="col-sm-5 col-md-7">
+              <input type="email" name="email" id="id_email" value="{{ email }}" required="" autocomplete="email" class="form-control" placeholder="example@mail.any"></input>
+            </div>
+            <div class="col-md-2">
+              {% if errors is not None %}
+                <p></p>
+                <ul class="errorlist">
+                {% for error in errors %}
+                <li>{{ error }}</li>
+                {% endfor %}
+                </ul>
+                <p></p>
+              {% endif %}
+              <button type="submit" class="btn btn-default navbar-btn">Cambiar email</button>
+            </div>
+            
+          </form>
+        </div>
       </div>
-      <button type="submit" class="btn btn-default navbar-btn">Cambiar email</button>
-    </form>
+    </div>
   </div>
-</div>
-
+</body>
 {% endblock %}

@@ -1,45 +1,56 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-  <br>
-  {% if form.errors %}
-  <p>Tu usuario y contraseña no coinciden. Por favor, vuelve a intentarlo</p>
-  {% endif %}
+<body>
+
+  <div class="container-fluid">
+
+    <div class="row">
+      <div class="col-xs-10 col-md-10 col-xs-offset-1 col-sm-offset-2 panel">
+        {% if form.errors %}
+          <p class="col-xs-offset-1">Tu solicitud no tuvo exito. Por favor, vuelve a intentarlo</p>
+        {% endif %}
 
 
-  {% if user.is_authenticated %}
-  <p>Su cuenta no tiene acceso a esta página. Para continuar,
-      por favor, inicie sesión con una cuenta que tenga acceso.</p>
-  {% else %}
-  <h1>Login</h1>
+        {% if user.is_authenticated %}
+          <p class="col-xs-offset-1">Su cuenta no tiene acceso a esta página. Para continuar,
+            por favor, inicie sesión con una cuenta que tenga acceso.</p>
+        {% else %}
+          <h1 class="col-xs-offset-4 col-sm-offset-5">Login</h1>
 
-  <div class="row">
-    <div class="col-xs-12 col-md-3">
-      <form method="post" action="{% url 'login' %}">
-        {% csrf_token %}
+          <form method="post" action="{% url 'login' %}">
+            {% csrf_token %}
 
-        <div class="form-group">
-          <label>Nombre de usuario</label>
-          <input type="text" name="username" class="form-control">{{ username }}</input>
-        </div>
-        <div class="form-group">
-          <label>Contraseña</label>
-          <input type="password" name="password" class="form-control">{{ password }}</input>
-        </div>
-        <input type="hidden" name="next" value="{{ next }}" />
-        <button type="submit" class="btn btn-default navbar-btn">Entrar</button>
-      </form>
+            <div class="form-group">
+              <div class="col-xs-10 col-sm-5 col-md-3 col-lg-3 col-xs-offset-0 col-sm-offset-1">
+                <label>Nombre de usuario</label>
+              </div>
+              <div class="col-sm-5 col-md-6 col-md-offset-1 col-lg-offset-0">
+                <input type="text" name="username" class="form-control"  placeholder="Introducir nombre de usario">{{ username }}</input>
+              </div>   
+            </div>
+            
+            <div class="form-group">
+              <div class="col-xs-12 col-sm-3 col-md-4 col-lg-3 col-xs-offset-0 col-sm-offset-1">
+                <label>Contraseña <a class="col-xs-offset-0" href="{% url 'password_reset' %}">(Recordarla)</a></label>
+              </div>
+              <div class="col-sm-5 col-md-6 col-sm-offset-2 col-md-offset-0">
+                <input type="password" name="password" class="form-control" placeholder="Introducir contraseña">{{ password }}</input>
+              </div>  
+            </div>
 
-      {# Por si acaso no tiene cuenta #}
+            <button type="submit" class="btn btn-info navbar-btn col-xs-4 col-sm-2 col-md-2 col-lg-1 col-xs-offset-0 col-md-offset-2 col-lg-offset-5">Entrar</button>
+          </form>
+    
+          <a href="{% url 'user_create' %}" class="btn btn-primary navbar-btn col-xs-6 col-sm-3 col-md-2 col-lg-2 col-xs-offset-1 col-sm-offset-1 col-md-offset-2 col-lg-offset-1">Registrarte</a>
+
+          {# Por si acaso no tiene cuenta #}  
+        {% endif %}
+      </div>
     </div>
   </div>
 
-  <div class="row">
-    <div class="col-xs-12 col-md-4">
-      <p>Si has olvidado tu contraseña puedes <a href="{% url 'password_reset' %}">Resetear la contraseña</a></p>
-      <p>Si no tienes cuenta puedes <a href="{% url 'user_create' %}">Registrarte</a></p>
-    </div>
-  </div>
+</body>
 
-  {% endif %}
+  
 {% endblock %}
