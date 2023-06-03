@@ -9,7 +9,7 @@ from django.db import IntegrityError
 from django.utils.crypto import get_random_string
 from django.utils.decorators import method_decorator
 from django.core.exceptions import ObjectDoesNotExist
-from .models import User, Verifications, Property
+from .models import User, Verification, Property
 from App.libs import PyCatastro
 from App.mailer import Mailer
 from App.forms import UserForm, PropertyForm
@@ -47,7 +47,7 @@ class CreateUser(View):
                 user.first_name = fields['first_name']
                 user.last_name = fields['last_name']
                 user.save()
-                Verifications.objects.create(user = user, email_verification_token = get_random_string(length = 32))
+                Verification.objects.create(user = user, email_verification_token = get_random_string(length = 32))
                 Mailer.send_email_verification_mail(user)
                 return render(request, 'user_created.html')
         except ValidationError as validation_errors:
@@ -102,8 +102,8 @@ class PasswordResetRequest(View):
     def post(self, request):
         try:
             user = User.objects.get(email = request.POST.get('email', ''))
-            if user.verifications.password_reset_token is None:
-                user.verifications.generate_password_reset_token()
+            if user.verification.password_reset_token is None:
+                user.verification.generate_password_reset_token()
             Mailer.send_reset_password_mail(user)
         except ObjectDoesNotExist:
             print('El email no corresponde a ningún usuario.')
@@ -115,13 +115,13 @@ class PasswordResetConfirm(View):
     template_name = 'password_reset_confirm.html'
 
     def get(self, request, token = None):
-        if Verifications.objects.filter(password_reset_token = token).count() == 0:
+        if Verification.objects.filter(password_reset_token = token).count() == 0:
             print('El token no corresponde a ningún usuario.')
             validlink = False
             user_id = 0
         else:
             validlink = True
-            user_id = Verifications.objects.get(password_reset_token = token).user.id
+            user_id = Verification.objects.get(password_reset_token = token).user.id
         return render(request, self.template_name, context = {'validlink': validlink, 'user_id': user_id})
 
     def post(self, request, token = None):
@@ -132,7 +132,7 @@ class PasswordResetConfirm(View):
             user = User.objects.get(id = user_id)
             user.set_password(new_password)
             user.save()
-            user.verifications.password_reset_successfully()
+            user.verification.password_reset_successfully()
             return redirect('password_reset_complete')
         except ValidationError as validation_errors:
             password_errors = validation_errors
@@ -156,10 +156,10 @@ class EmailVerificationRequest(View):
             print('El email no corresponde a ningún usuario.')
         else:
             user = User.objects.get(email = email)
-            if user.verifications.email_verified:
+            if user.verification.email_verified:
                 redirect_to = 'email_verified'
-            elif user.verifications.email_verification_token is None:
-                user.verifications.generate_email_verification_token()
+            elif user.verification.email_verification_token is None:
+                user.verification.generate_email_verification_token()
                 Mailer.send_email_verification_mail(user)
 
         return redirect(redirect_to)
@@ -182,10 +182,10 @@ class EmailUpdateRequest(View):
             return render(request, 'email_update_request.html', context = {'email': new_email, 'errors': ['Este email ya pertenece a otro usuario']})
         except ObjectDoesNotExist:
             user = request.user
-            user.verifications.email_update_to = new_email
-            user.verifications.save()
-            if user.verifications.email_verification_token is None:
-                user.verifications.generate_email_verification_token()
+            user.verification.email_update_to = new_email
+            user.verification.save()
+            if user.verification.email_verification_token is None:
+                user.verification.generate_email_verification_token()
             Mailer.send_email_update_mail(user, new_email)
             return redirect('email_update_requested')
 
@@ -197,15 +197,15 @@ class EmailUpdateRequested(View):
 
 class VerifyEmail(View):
     def get(self, request, token = None):
-        if Verifications.objects.filter(email_verification_token = token).count() == 0:
+        if Verification.objects.filter(email_verification_token = token).count() == 0:
             print('El email no corresponde a ningún usuario.')
             return render(request, 'email_verification_error.html')
         else:
-            user = Verifications.objects.get(email_verification_token = token).user
-            if user.verifications.email_update_to is not None:
-                user.verifications.email_updated_successfully()
+            user = Verification.objects.get(email_verification_token = token).user
+            if user.verification.email_update_to is not None:
+                user.verification.email_updated_successfully()
             else:
-                user.verifications.email_verified_successfully()
+                user.verification.email_verified_successfully()
             return redirect('email_verified')
 
 

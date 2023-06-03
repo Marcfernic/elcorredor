@@ -7,7 +7,7 @@ class Mailer(object):
     @classmethod
     def send_reset_password_mail(cls, user):
         base_url = settings.PRODUCTION_URL if os.environ.get('DJANGO_ENV', '') == 'Production' else settings.DEVELOPMENT_URL
-        token = user.verifications.password_reset_token
+        token = user.verification.password_reset_token
         data = {
             'sender': settings.DEFAULT_FROM_EMAIL,
             'receiver': user.email,
@@ -22,7 +22,7 @@ class Mailer(object):
     @classmethod
     def send_email_verification_mail(cls, user):
         base_url = settings.PRODUCTION_URL if os.environ.get('DJANGO_ENV', '') == 'Production' else settings.DEVELOPMENT_URL
-        token = user.verifications.email_verification_token
+        token = user.verification.email_verification_token
         data = {
             'sender': settings.DEFAULT_FROM_EMAIL,
             'receiver': user.email,
@@ -37,7 +37,7 @@ class Mailer(object):
     @classmethod
     def send_email_update_mail(cls, user, new_email):
         base_url = settings.PRODUCTION_URL if os.environ.get('DJANGO_ENV', '') == 'Production' else settings.DEVELOPMENT_URL
-        token = user.verifications.email_verification_token
+        token = user.verification.email_verification_token
         data = {
             'sender': settings.DEFAULT_FROM_EMAIL,
             'receiver': new_email,
