@@ -11,7 +11,7 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.AddField(
-            model_name='verifications',
+            model_name='verification',
             name='password_reset_token',
             field=models.CharField(blank=True, max_length=128, null=True),
         ),

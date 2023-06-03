@@ -6,7 +6,7 @@ from django.utils.crypto import get_random_string
 from django.utils.timezone import now
 
 # Create your models here.
-class Verifications(models.Model):
+class Verification(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     email_update_to = models.CharField(max_length = 128, null = True, blank = True)
     email_verification_token = models.CharField(max_length = 128, null = True, blank = True)
