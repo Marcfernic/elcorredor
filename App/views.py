@@ -14,7 +14,7 @@ from App.libs import PyCatastro
 from App.mailer import Mailer
 from App.forms import UserForm, PropertyForm
 from App.decorators import verification_required
-
+from App.catastro import * 
 
 class Index(View):
     def get(self, request):
@@ -215,6 +215,7 @@ class EmailVerified(View):
 
 
 class Catastro(View):
+
     def get(self, request):
         latitude = request.GET.get('latitude', '')
         longitude = request.GET.get('longitude', '')
@@ -226,12 +227,40 @@ class Catastro(View):
                 property = Property.objects.get(catastral_reference = catastral_reference, verified = True)
             else:
                 property = None
-            return render(request, 'catastro_found.html', context = {'address': address, 'catastral_reference': catastral_reference, 'property': property})
+            print("Direccion:", address)
+            prov = extractProv(address)
+            print(prov)
+            mun = extractMun(address)
+            print(mun)
+            inm = PyCatastro.Consulta_DNPRC_Codigos(prov, mun, catastral_reference)
+            print("inmueble:", inm)
+            cla = sayCla(inm)
+            print(cla)
+            us = sayUs(inm)
+            print(us)
+            if cla == 'Urbano':
+                typ = sayCon(inm, us)
+                floor = revelSup(inm)
+                mez = mix(typ,floor)
+            elif cla == "Rústico":
+                typ = sayCul(inm, us)
+                floor = revelSur(inm, typ)
+                mez = mix(typ,floor)
+            else: 
+                mez = [["-","No tenemos acceso a dicha información","Sin declar"]] 
+                typ = floor = ""
+            
+            return render(request, 'catastro_found.html', context = {'address': address, 
+            'catastral_reference': catastral_reference, 'cla' : cla, 'us' : us,
+            'mez' : mez, 'property': property})
+        
         elif res['consulta_coordenadas']['control']['cuerr'] == '1':
             mensaje = res['consulta_coordenadas']['lerr']['err']['des']
             return render(request, 'catastro_not_found.html', context = {'mensaje': mensaje})
+        
         else:
             return render(request, 'catastro_error.html',)
+
 
 
 @method_decorator(login_required, name = 'dispatch')
