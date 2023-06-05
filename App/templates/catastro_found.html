@@ -12,12 +12,38 @@
 
           <h2 class="col-xs-offset-1 col-sm-offset-4">Datos catastrales</h2>
           <ul>
-            <li>Direccion: {{ address }}</li>
             <li>Referencia Catastral: <span id="reference">{{ catastral_reference }}</span>
               <span id="copyReference">
                 <a id="copyReferenceLink">Copiar</a>
               </span>
             </li>
+            <li>Direccion: {{ address }}</li>
+            <li>Clase: {{ cla }}</li>
+            <li>Tipo: {{ us }}</li>
+            {% if  floor  != "" and  typ  != "" %}
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Espacio</th>
+                    <th>Empleo</th>
+                    <th>Superficie</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for m in mez  %}
+                    <tr>
+                      <td> {{ m.0 }}  </td>
+                      <td> {{ m.1 }} </td>
+                      <td> {{ m.2 }} m² </td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            {% elif  typ  == "" and  floor  != "" %}
+              <li>Superficie: {{ floor }} m²</li>
+            {% elif  typ  == "" and  floor  == "" %}
+              <li>No hay informacion al respecto</li>
+            {% endif %}  
           </ul>
           {% if user.is_authenticated %}
             {% if property %}
