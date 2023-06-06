@@ -227,6 +227,7 @@ class Catastro(View):
                 property = Property.objects.get(catastral_reference = catastral_reference, verified = True)
             else:
                 property = None
+            print("Referencia catastral:", catastral_reference)
             print("Direccion:", address)
             prov = extractProv(address)
             print(prov)
@@ -235,21 +236,13 @@ class Catastro(View):
             inm = PyCatastro.Consulta_DNPRC_Codigos(prov, mun, catastral_reference)
             print("inmueble:", inm)
             cla = sayCla(inm)
-            print(cla)
+            print("Clase", cla)
             us = sayUs(inm)
-            print(us)
-            if cla == 'Urbano':
-                typ = sayCon(inm, us)
-                floor = revelSup(inm)
-                mez = mix(typ,floor)
-            elif cla == "Rústico":
-                typ = sayCul(inm, us)
-                floor = revelSur(inm, typ)
-                mez = mix(typ,floor)
-            else: 
-                mez = [["-","No tenemos acceso a dicha información","Sin declar"]] 
-                typ = floor = ""
-            
+            print("Uso", us)
+            typ = proTyp(inm, us)
+            floor = proFloor(inm, us)
+            mez = mix(typ,floor)
+            print("Datos:", mez)
             return render(request, 'catastro_found.html', context = {'address': address, 
             'catastral_reference': catastral_reference, 'cla' : cla, 'us' : us,
             'mez' : mez, 'property': property})

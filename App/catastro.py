@@ -1,90 +1,128 @@
 def mix(a,b):
     mix=[]
-    if len(a)==len(b):
+    if b == "":
         for n in range(0, len(a), 1):
-            txt = [n+1,a[n],b[n]]
-            mix.append(txt)
-    elif len(a)>len(b):
-        for n in range(0, len(b), 1):
-            txt = [n+1,a[n],b[n]]
-            mix.append(txt)
-    elif len(a)<len(b):
-        for n in range(0, len(a), 1):
-            txt = [n+1,a[n],b[n]]
-            mix.append(txt)
+                txt = [n+1,a[n],"-"]
+                mix.append(txt)
     else:
-        mix = ""
+        if len(a)==len(b):
+            for n in range(0, len(a), 1):
+                txt = [n+1,a[n],b[n]]
+                mix.append(txt)
+        elif len(a)>len(b):
+            for n in range(0, len(b), 1):
+                txt = [n+1,a[n],b[n]]
+                mix.append(txt)
+        elif len(a)<len(b):
+            for n in range(0, len(a), 1):
+                txt = [n+1,a[n],b[n]]
+                mix.append(txt)
+        else:
+            mix = [["-","-", "-"]]
 
     return mix
 
-def sayCon(con, noc):
-    num = len(con['consulta_dnp']['bico']['lcons']['cons'])
-    lis = []
-    if num > 1:
-        for n in range(0,num,1):
-            if noc == "Deportivo" or noc == "Residencial":
-                lis.append(con['consulta_dnp']['bico']['lcons']['cons'][n]['lcd'])
-            elif noc == "Espectaculos" or noc == "Religioso":
-                lis.append(con['consulta_dnp']['bico']['lcons']['cons']['lcd'])
+
+def proFloor(floor, ex):
+    num = 0
+    options = ""
+    if ex == "No tenemos acceso a este dato":
+        lis = ""
+    else:
+        try:
+            num = len(floor['consulta_dnp']['bico']['bi']['debi'])
+            options = "a"
+        except:
+            num = len(floor['consulta_dnp']['bico']['lspr']['spr'])
+            options = "b"
+        finally:
+            lis = []
+            if num > 1:
+                for n in range(0,num,1):
+                    if options == "a":
+                        lis.append(floor['consulta_dnp']['bico']['bi']['debi']['sfc'])  
+                    if options == "b":
+                        try:
+                            lis.append(floor['consulta_dnp']['bico']['lspr']['spr']['dspr']['ssp'])
+                        except: 
+                            lis.append(floor['consulta_dnp']['bico']['lspr']['spr'][n]['dspr']['ssp']) 
+            elif num == 1:
+                if options == "a":
+                    try:
+                        lis.append(floor['consulta_dnp']['bico']['bi']['debi']['sfc'])
+                    except:
+                        lis.append(floor['consulta_dnp']['bico']['lspr']['spr']['dspr']['ssp'])
+                if options == "b":
+                    lis.append(floor['consulta_dnp']['bico']['lspr']['spr']['dspr']['ssp'])
             else:
-                print(noc)
-    elif num == 1:
-        lis.append(con['consulta_dnp']['bico']['lcons']['cons']['lcd'])
-    else:
-        lis = ""
-
-    return lis
-
-def revelSup(sup):
-    num = len(sup['consulta_dnp']['bico']['bi']['debi'])
-    lis = []
-    if num > 1:
-        for n in range(0,num,1):
-            lis.append(sup['consulta_dnp']['bico']['bi']['debi']['sfc'])
-    elif num == 1:
-        lis.append(sup['consulta_dnp']['bico']['bi']['debi']['sfc'])
-    else:
-        a = sup['consulta_dnp']['bico']['bi']['dt']['loine']['cm']
-        b = sup['consulta_dnp']['bico']['bi']['dt']['cmc']
-        c = sup['consulta_dnp']['bico']['bi']['debi']['cpt']
-        lis = lis.append(a + b + c)
+                if options == "a":
+                    a = floor['consulta_dnp']['bico']['bi']['dt']['loine']['cm']
+                    b = floor['consulta_dnp']['bico']['bi']['dt']['cmc']
+                    c = floor['consulta_dnp']['bico']['bi']['debi']['cpt']
+                    lis = lis.append(a + b + c)
+                else:
+                    lis = ""
 
     return lis
 
 
-def revelSur(sur, rus):
-    num = len(sur['consulta_dnp']['bico']['lspr']['spr'])
-    lis = []
-    print(rus)
-    if num > 1:
-        for n in range(0,num,1):
-            if rus[n] == "AGRIOS REGADÍO" or rus[n] == "LABOR O LABRADÍO REGADÍO":
-                lis.append(sur['consulta_dnp']['bico']['lspr']['spr']['dspr']['ssp'])
-            else: 
-                lis.append(sur['consulta_dnp']['bico']['lspr']['spr'][n]['dspr']['ssp'])
-    elif num == 1:
-        lis.append(sur['consulta_dnp']['bico']['lspr']['spr']['dspr']['ssp'])
-    else:
-        lis = ""
-
-    return lis
-
-def sayCul(cul, luc):
-    num = len(cul['consulta_dnp']['bico']['lspr']['spr'])
-    lis = []
-    print(luc)
-    if num > 1:
-        for n in range(0,num,1):
-            try:
-                lis.append(cul['consulta_dnp']['bico']['lspr']['spr']['dspr']['dcc'])
-            except: 
-                lis.append(cul['consulta_dnp']['bico']['lspr']['spr'][n]['dspr']['dcc'])
+def proTyp(typ, ex):
+    options = ""
+    num = 0
+    if ex == "No tenemos acceso a este dato":
+        lis = []
+        try:
+            print("entro a")
+            num = len(typ['consulta_dnp']['lrcdnp']['rcdnp'])
+            print(num)
+            if num > 1:
+                for n in range(0,num,1):
+                    try:
+                        print("entro a1")
+                        lis.append(typ['consulta_dnp']['lrcdnp']['rcdnp'][n]['dt']['locs']['lous']['lourb']['dir']['nv'])
+                        print("lista:", lis[n])
+                    except:
+                        print("entro a2")
+                        lis.append(typ['consulta_dnp']['lrcdnp']['rcdnp']['dt']['locs']['lous']['lourb']['dir']['nv'])
+                        print("lista:", lis[n])
+            elif num == 1:
+                lis.append(typ['consulta_dnp']['lrcdnp']['rcdnp']['dt']['locs']['lous']['lourb']['dir']['nv'])
+                print("lista", lis)
             else:
-                pass
-    elif num == 1:
-        lis.append(cul['consulta_dnp']['bico']['lspr']['spr']['dspr']['dcc'])
+                print("entro b")
+                lis = ""
+                print("lista", lis)
+        except:
+            lis = ""
     else:
-        lis = ""
+        print("entro c")
+        try:
+            num = len(typ['consulta_dnp']['bico']['lcons']['cons'])
+            options = "a"
+        except: 
+            num = len(typ['consulta_dnp']['bico']['lspr']['spr'])
+            options = "b"      
+        finally:
+            lis = []
+            if num > 1:
+                for n in range(0,num,1):
+                    if options == "a":
+                        try:
+                            lis.append(typ['consulta_dnp']['bico']['lcons']['cons'][n]['lcd'])
+                        except:
+                            lis.append(typ['consulta_dnp']['bico']['lcons']['cons']['lcd'])
+                    if options == "b":
+                        try:
+                            lis.append(typ['consulta_dnp']['bico']['lspr']['spr']['dspr']['dcc'])
+                        except: 
+                            lis.append(typ['consulta_dnp']['bico']['lspr']['spr'][n]['dspr']['dcc'])
+            elif num == 1:
+                if options == "a":
+                    lis.append(typ['consulta_dnp']['bico']['lcons']['cons']['lcd'])
+                if options == "b":
+                    lis.append(typ['consulta_dnp']['bico']['lspr']['spr']['dspr']['dcc'])
+            else:
+                lis = ""
 
     return lis
 
