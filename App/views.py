@@ -337,3 +337,8 @@ class PropertyContact(View):
 class PropertyContacted(View):
     def get(self, request):
         return render(request, 'property_contacted.html')
+
+class SearchProperties(View):
+    def get(self, request):
+        properties = Property.objects.filter(verified = True)
+        return render(request, 'search_properties.html', context = {'properties': properties})

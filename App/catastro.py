@@ -72,30 +72,20 @@ def proTyp(typ, ex):
     if ex == "No tenemos acceso a este dato":
         lis = []
         try:
-            print("entro a")
             num = len(typ['consulta_dnp']['lrcdnp']['rcdnp'])
-            print(num)
             if num > 1:
                 for n in range(0,num,1):
                     try:
-                        print("entro a1")
                         lis.append(typ['consulta_dnp']['lrcdnp']['rcdnp'][n]['dt']['locs']['lous']['lourb']['dir']['nv'])
-                        print("lista:", lis[n])
                     except:
-                        print("entro a2")
                         lis.append(typ['consulta_dnp']['lrcdnp']['rcdnp']['dt']['locs']['lous']['lourb']['dir']['nv'])
-                        print("lista:", lis[n])
             elif num == 1:
                 lis.append(typ['consulta_dnp']['lrcdnp']['rcdnp']['dt']['locs']['lous']['lourb']['dir']['nv'])
-                print("lista", lis)
             else:
-                print("entro b")
                 lis = ""
-                print("lista", lis)
         except:
             lis = ""
     else:
-        print("entro c")
         try:
             num = len(typ['consulta_dnp']['bico']['lcons']['cons'])
             options = "a"

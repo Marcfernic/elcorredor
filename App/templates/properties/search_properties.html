@@ -1,0 +1,40 @@
+{% extends "base_generic.html" %}
+{% block content %}
+
+	{% if properties %}
+		<div class="row">
+		  <div class="col-xs-12 col-md-8 panel">
+		  	<h1>Estos son las propiedades que coinciden con tus resultados</h1>
+		    <table class="table">
+		      <thead>
+		        <tr>
+		          <th>Referencia catastral</th>
+		          <th>Precio</th>
+		          <th>A la venta desde</th>
+		          <th>Acciones</th>
+		        </tr>
+		      </thead>
+		      <tbody>
+		      {% for property in properties %}
+		        <tr>
+		          <td>{{ property.catastral_reference }}</td>
+		          <td>{{ property.price }}</td>
+		          <td>{{ property.created_at }}</td>
+		          <td>
+              <form action="{% url 'property_contact' %}" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="property_id" value="{{ property.id }}" />
+                <a href="#" class="success" onclick="this.parentNode.submit()">Hablar con el ofertante</a>
+              </form>
+            </td>
+		        </tr>
+		      {% endfor %}
+		      </tbody>
+		    </table>
+		  </div>
+		</div>
+	{% else %}
+	  <p class="col-xs-offset-5"> Lo lamento pero no hay ninguna propiedad que coincida con tu busqueda</p>
+	{% endif %}
+
+{% endblock %}

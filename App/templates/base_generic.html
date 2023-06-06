@@ -56,17 +56,18 @@
                   {% endif %}
                 </ul>
               </div>
-              {% if user.is_authenticated %}
-                <div class="col-xs-12 col-sm-1 col-sm-offset-1 col-md-offset-0">
-                  <a href="#" class="navbar-brand" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Propiedades</a>
-                  <ul class="dropdown-menu col-xs-12 col-sm-2">
-                  {% if user.is_superuser %}
-                    <li class="{{ request|active_class_for:'unverified_properties' }}  col-xs-offset-4 col-sm-offset-3"><a class="navbar-brand" href="{% url 'unverified_properties' %}">Verificar</a></li>
-                  {% endif %}
+              <div class="col-xs-12 col-sm-1 col-sm-offset-1 col-md-offset-0">
+                <a href="#" class="navbar-brand" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Propiedades</a>
+                <ul class="dropdown-menu col-xs-12 col-sm-2">
+                  <li role="presentation" class="{{ request|active_class_for:'search_properties' }} col-xs-offset-3"><a class="navbar-brand" href="{% url 'search_properties' %}">Disponibles</a></li>
+                  {% if user.is_authenticated %}
+                    {% if user.is_superuser %}
+                      <li class="{{ request|active_class_for:'unverified_properties' }}  col-xs-offset-4 col-sm-offset-3"><a class="navbar-brand" href="{% url 'unverified_properties' %}">Verificar</a></li>
+                    {% endif %}
                     <li role="presentation" class="{{ request|active_class_for:'property_create' }} col-xs-offset-4"><a class="navbar-brand" href="{% url 'property_create' %}">Crear</a></li>
-                  </ul>
-                </div>
-              {% endif %}  
+                  {% endif %}
+                </ul>
+              </div>
             </div>
           </div>
         </ul>

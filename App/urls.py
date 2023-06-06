@@ -17,4 +17,6 @@ urlpatterns += [
     url(r'^property/verified/$', views.PropertyVerified.as_view(), name = 'property_verified'),
     url(r'^property/(?P<catastral_reference>.+)/contact/$', views.PropertyContact.as_view(), name = 'property_contact'),
     url(r'^property/contacted/$', views.PropertyContacted.as_view(), name = 'property_contacted'),
+    url(r'^properties/search/$', views.SearchProperties.as_view(), name = 'search_properties'),
+
 ]
