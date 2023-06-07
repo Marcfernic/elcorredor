@@ -240,7 +240,9 @@ class Catastro(View):
             us = sayUs(inm)
             print("Uso", us)
             typ = proTyp(inm, us)
+            print("Tipos:", typ)
             floor = proFloor(inm, us)
+            print("Superficie:", floor)
             mez = mix(typ,floor)
             print("Datos:", mez)
             return render(request, 'catastro_found.html', context = {'address': address, 

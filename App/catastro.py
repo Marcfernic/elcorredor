@@ -2,21 +2,31 @@ def mix(a,b):
     mix=[]
     if b == "":
         for n in range(0, len(a), 1):
-                txt = [n+1,a[n],"-"]
-                mix.append(txt)
+            txt = [n+1,a[n],"-"]
+            mix.append(txt)
     else:
         if len(a)==len(b):
             for n in range(0, len(a), 1):
                 txt = [n+1,a[n],b[n]]
                 mix.append(txt)
+
         elif len(a)>len(b):
-            for n in range(0, len(b), 1):
-                txt = [n+1,a[n],b[n]]
-                mix.append(txt)
-        elif len(a)<len(b):
             for n in range(0, len(a), 1):
-                txt = [n+1,a[n],b[n]]
-                mix.append(txt)
+                try:
+                    txt = [n+1,a[n],b[n]]
+                except:
+                    txt = [n+1,a[n],"-"]
+                finally:
+                    mix.append(txt)
+            
+        elif len(a)<len(b):
+            for n in range(0, len(b), 1):
+                try:
+                    txt = [n+1,a[n],b[n]]
+                except:
+                    txt = [n+1,"-",b[n]]
+                finally:
+                    mix.append(txt)
         else:
             mix = [["-","-", "-"]]
 
@@ -27,42 +37,58 @@ def proFloor(floor, ex):
     num = 0
     options = ""
     if ex == "No tenemos acceso a este dato":
-        lis = ""
+        pass
     else:
         try:
-            num = len(floor['consulta_dnp']['bico']['bi']['debi'])
+            a = len(floor['consulta_dnp']['bico']['lcons']['cons'])
+            b = len(floor['consulta_dnp']['bico']['lcons'])
+            if a < b:
+                num = b
+            elif a > b:
+                num = a
+            else:
+                num = b
             options = "a"
         except:
-            num = len(floor['consulta_dnp']['bico']['lspr']['spr'])
+            num = len(floor['consulta_dnp']['bico']['lspr'])
             options = "b"
         finally:
             lis = []
             if num > 1:
                 for n in range(0,num,1):
-                    if options == "a":
-                        lis.append(floor['consulta_dnp']['bico']['bi']['debi']['sfc'])  
-                    if options == "b":
-                        try:
-                            lis.append(floor['consulta_dnp']['bico']['lspr']['spr']['dspr']['ssp'])
-                        except: 
-                            lis.append(floor['consulta_dnp']['bico']['lspr']['spr'][n]['dspr']['ssp']) 
-            elif num == 1:
-                if options == "a":
                     try:
-                        lis.append(floor['consulta_dnp']['bico']['bi']['debi']['sfc'])
+                        try:
+                            lis.append(floor['consulta_dnp']['bico']['lcons']['cons'][n]['dfcons']['stl'])
+                        except:
+                            lis.append(floor['consulta_dnp']['bico']['lspr']['spr'][n]['dspr']['ssp'])
+                    except:
+                        try:
+                            lis.append(floor['consulta_dnp']['bico']['lcons']['cons']['dfcons']['stl'])
+                        except:
+                            lis.append(floor['consulta_dnp']['bico']['lspr']['spr']['dspr']['ssp'])
+            elif num == 1:
+                try:
+                    try:
+                        lis.append(floor['consulta_dnp']['bico']['lcons']['cons']['dfcons']['stl'])
                     except:
                         lis.append(floor['consulta_dnp']['bico']['lspr']['spr']['dspr']['ssp'])
-                if options == "b":
-                    lis.append(floor['consulta_dnp']['bico']['lspr']['spr']['dspr']['ssp'])
-            else:
-                if options == "a":
+                except:
+                    try:
+                        lis.append(floor['consulta_dnp']['bico']['lcons']['cons'][0]['dfcons']['stl'])
+                    except:
+                        lis.append(floor['consulta_dnp']['bico']['lspr']['spr'][0]['dspr']['ssp'])
+            else:                    
+                try:
                     a = floor['consulta_dnp']['bico']['bi']['dt']['loine']['cm']
                     b = floor['consulta_dnp']['bico']['bi']['dt']['cmc']
                     c = floor['consulta_dnp']['bico']['bi']['debi']['cpt']
+                    float(a)
+                    float(b)
+                    float(c)
+                    print(a+b+c)
                     lis = lis.append(a + b + c)
-                else:
-                    lis = ""
-
+                except:
+                    print("ALGO PASA")
     return lis
 
 
@@ -81,38 +107,55 @@ def proTyp(typ, ex):
                         lis.append(typ['consulta_dnp']['lrcdnp']['rcdnp']['dt']['locs']['lous']['lourb']['dir']['nv'])
             elif num == 1:
                 lis.append(typ['consulta_dnp']['lrcdnp']['rcdnp']['dt']['locs']['lous']['lourb']['dir']['nv'])
-            else:
-                lis = ""
         except:
-            lis = ""
+            pass
     else:
         try:
-            num = len(typ['consulta_dnp']['bico']['lcons']['cons'])
+            a = len(typ['consulta_dnp']['bico']['lcons']['cons'])
+            b = len(typ['consulta_dnp']['bico']['lcons'])
+            if a < b:
+                num = b
+            elif a > b:
+                num = a
+            else:
+                num = b
             options = "a"
         except: 
-            num = len(typ['consulta_dnp']['bico']['lspr']['spr'])
+            num = len(typ['consulta_dnp']['bico']['lspr'])
             options = "b"      
         finally:
             lis = []
             if num > 1:
                 for n in range(0,num,1):
-                    if options == "a":
+                    try: 
                         try:
                             lis.append(typ['consulta_dnp']['bico']['lcons']['cons'][n]['lcd'])
                         except:
-                            lis.append(typ['consulta_dnp']['bico']['lcons']['cons']['lcd'])
-                    if options == "b":
-                        try:
-                            lis.append(typ['consulta_dnp']['bico']['lspr']['spr']['dspr']['dcc'])
-                        except: 
                             lis.append(typ['consulta_dnp']['bico']['lspr']['spr'][n]['dspr']['dcc'])
+                    except:
+                        try:
+                            lis.append(typ['consulta_dnp']['bico']['lcons']['cons']['lcd'])
+                        except:
+                            lis.append(typ['consulta_dnp']['bico']['lspr']['spr']['dspr']['dcc'])
             elif num == 1:
-                if options == "a":
-                    lis.append(typ['consulta_dnp']['bico']['lcons']['cons']['lcd'])
-                if options == "b":
-                    lis.append(typ['consulta_dnp']['bico']['lspr']['spr']['dspr']['dcc'])
+                try: 
+                    try:
+                        lis.append(typ['consulta_dnp']['bico']['lcons']['cons'][0]['lcd'])
+                    except:
+                        lis.append(typ['consulta_dnp']['bico']['lspr']['spr'][0]['dspr']['dcc'])
+                except:
+                    try:
+                        lis.append(typ['consulta_dnp']['bico']['lcons']['cons']['lcd'])
+                    except:
+                        lis.append(typ['consulta_dnp']['bico']['lspr']['spr']['dspr']['dcc'])
             else:
-                lis = ""
+                if options == "a":
+                    try:
+                        lis.append(typ['consulta_dnp']['bico']['lcons']['cons']['lcd'])
+                    except:
+                        lis.append(typ['consulta_dnp']['bico']['lcons']['cons'][0]['lcd'])
+                elif options == "b":
+                    lis.append(typ['consulta_dnp']['bico']['lspr']['spr']['dspr']['dcc'])
 
     return lis
 
