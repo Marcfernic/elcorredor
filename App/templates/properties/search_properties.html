@@ -21,12 +21,8 @@
 		          <td>{{ property.price }}</td>
 		          <td>{{ property.created_at }}</td>
 		          <td>
-              <form action="{% url 'property_contact' %}" method="POST">
-                {% csrf_token %}
-                <input type="hidden" name="property_id" value="{{ property.id }}" />
-                <a href="#" class="success" onclick="this.parentNode.submit()">Hablar con el ofertante</a>
-              </form>
-            </td>
+              	<button></button>
+            	</td>
 		        </tr>
 		      {% endfor %}
 		      </tbody>
