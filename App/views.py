@@ -10,7 +10,7 @@ from django.utils.crypto import get_random_string
 from django.utils.decorators import method_decorator
 from django.core.exceptions import ObjectDoesNotExist
 from .models import User, Verification, Property
-from App.libs import PyCatastro
+from App.libs import PyCatastro, GoogleApi
 from App.mailer import Mailer
 from App.forms import UserForm, PropertyForm
 from App.decorators import verification_required
@@ -18,6 +18,9 @@ from App.catastro import *
 
 class Index(View):
     def get(self, request):
+        par = GoogleApi.Consulta_RCXY("4259712VK8245N")
+        print(par)
+        print(1)
         return render(request, 'index.html')
 
 
@@ -59,7 +62,6 @@ class CreateUser(View):
 
 
 @method_decorator(login_required, name = 'dispatch')
-@method_decorator(verification_required, name = 'dispatch')
 class LoggedIn(View):
     def get(self, request):
         return render(request, 'logged_in.html')
@@ -71,7 +73,6 @@ class LoggedOut(View):
 
 
 @method_decorator(login_required, name = 'dispatch')
-@method_decorator(verification_required, name = 'dispatch')
 class UserProfile(View):
     def get(self, request):
         properties = Property.objects.filter(user = request.user.id)
@@ -97,7 +98,7 @@ class UserDeleted(View):
     def get(self, request):
         return render(request, 'user_deleted.html')
 
-
+@method_decorator(login_required, name = 'dispatch')
 class PasswordResetRequest(View):
     def post(self, request):
         try:
@@ -144,7 +145,7 @@ class UserUnverified(View):
     def get(self, request):
         return render(request, 'user_unverified.html')
 
-
+@method_decorator(login_required, name = 'dispatch')
 class EmailVerificationRequest(View):
     def get(self, request):
         return render(request, 'email_verification_request.html')
@@ -194,7 +195,7 @@ class EmailUpdateRequested(View):
     def get(self, request):
         return render(request, 'email_update_requested.html')
 
-
+@method_decorator(login_required, name = 'dispatch')
 class VerifyEmail(View):
     def get(self, request, token = None):
         if Verification.objects.filter(email_verification_token = token).count() == 0:
@@ -208,7 +209,7 @@ class VerifyEmail(View):
                 user.verification.email_verified_successfully()
             return redirect('email_verified')
 
-
+@method_decorator(verification_required, name = 'dispatch')
 class EmailVerified(View):
     def get(self, request):
         return render(request, 'email_verified.html')
@@ -300,6 +301,7 @@ class PropertyDeleted(View):
 
 
 @method_decorator(login_required, name = 'dispatch')
+@method_decorator(verification_required, name = 'dispatch')
 class UnverifiedProperties(View):
     def get(self, request):
         properties = Property.objects.filter(verified = False)
@@ -307,6 +309,7 @@ class UnverifiedProperties(View):
 
 
 @method_decorator(login_required, name = 'dispatch')
+@method_decorator(verification_required, name = 'dispatch')
 class VerifyProperty(View):
     def post(self, request):
         property_id = request.POST.get('property_id', 0)
@@ -316,12 +319,31 @@ class VerifyProperty(View):
 
 
 @method_decorator(login_required, name = 'dispatch')
+@method_decorator(verification_required, name = 'dispatch')
+class UnverifyProperty(View):
+    def post(self, request):
+        property_id = request.POST.get('property_id', 0)
+        property = Property.objects.get(id = property_id)
+        property.unverify()
+        return redirect('property_unverified')
+
+
+@method_decorator(login_required, name = 'dispatch')
+@method_decorator(verification_required, name = 'dispatch')
 class PropertyVerified(View):
     def get(self, request):
         return render(request, 'property_verified.html')
 
 
 @method_decorator(login_required, name = 'dispatch')
+@method_decorator(verification_required, name = 'dispatch')
+class PropertyUnverified(View):
+    def get(self, request):
+        return render(request, 'property_unverified.html')
+
+
+@method_decorator(login_required, name = 'dispatch')
+@method_decorator(verification_required, name = 'dispatch')
 class PropertyContact(View):
     def get(self, request, catastral_reference = None):
         property = Property.objects.get(catastral_reference = catastral_reference)
@@ -336,10 +358,13 @@ class PropertyContact(View):
 
 
 @method_decorator(login_required, name = 'dispatch')
+@method_decorator(verification_required, name = 'dispatch')
 class PropertyContacted(View):
     def get(self, request):
         return render(request, 'property_contacted.html')
 
+@method_decorator(login_required, name = 'dispatch')
+@method_decorator(verification_required, name = 'dispatch')
 class SearchProperties(View):
     def get(self, request):
         properties = Property.objects.filter(verified = True)

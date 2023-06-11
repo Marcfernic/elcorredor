@@ -3,18 +3,18 @@
 {% block content %}
 <body>
 
-  <div class="container-fluid">
+  <div class="container-fluid data-box text-center">
     <div class="row">
-      <div class="col-sm-12">
-        <div class="panel col-sm-offset-2">
+      <div class="">
+        <div class="">
           {% if request.user.id == user.id %}
-          <h1 class="col-xs-offset-1 col-sm-offset-2 col-md-offset-3 col-lg-offset-4">Has iniciado sesión</h1>
+          <h1 class="">Has iniciado sesión</h1>
 
-          <p class="col-xs-offset-1 col-md-offset-2 col-lg-offset-3">¡Enhorabuena! Ahora; Si lo deseas, puedes ir al <a href="{% url 'index'%}">Inicio</a> o ver tu <a href="{% url 'user_profile'%}">Perfil de usuario</a></p>
+          <p class="">¡Enhorabuena! Ahora; Si lo deseas, puedes ir al <a href="{% url 'index'%}">Inicio</a> o ver tu <a href="{% url 'user_profile'%}">Perfil de usuario</a></p>
           {% else %}
           <div class="form-group">
-            <h1 class="col-xs-offset-1 col-sm-offset-3 col-md-offset-4 col-lg-offset-5">Error</h1>
-            <p class="col-xs-offset-1 col-md-offset-3">Si lo deseas puedes ir al <a href="{% url 'index'%}">Inicio</a> para repetir</p>
+            <h1 class="">Error</h1>
+            <p class="">Si lo deseas puedes ir al <a href="{% url 'index'%}">Inicio</a> para repetir</p>
           </div>
           {% endif %}
         </div>

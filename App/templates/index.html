@@ -1,22 +1,25 @@
 {% extends "base_generic.html" %}
-
 {% block content %}
-
 <title>El Corredor</title>
-
 <h1><em></em></h1>
 
 <body>
+
+
 	<div class="container-fluid">
-  		<div class="row">
-  			<div class="col-xs-12 col-sm-offset-1">
-				<p>Bienvenido a <em><b>El Corredor</b></em>, para empezar debes compartir tu localización o buscar un punto en el mapa.</p> 
-				<button type="button" class="btn btn-default navbar-btn" onclick="getLocation()">Obtener mi localización</button>
-				<p id="location-error"></p>
+		<div class="row justify-content-center align-items-center vh-100">
+		  <div class="col-12 text-center data-box">
+			<h4>¡Te doy la bienvenida a <em><b>El Corredor</b></em>! Para comenzar a utilizar nuestra plataforma, te recomendamos compartir tu ubicación actual o buscar un punto específico en el mapa.</h4>
+			<button type="button" style="background-color: #ffc75a; color: #fff; border: 1px solid #ffc75a; border-radius: 4px; padding: 8px 16px; font-size: 14px; font-weight: bold; cursor: pointer;" onmouseover="this.style.backgroundColor='#FFD966'; this.style.cursor='pointer';" onmouseout="this.style.backgroundColor='#ffc75a'; this.style.color='#fff'; this.style.cursor='pointer';" onclick="getLocation()">Obtener mi localización</button>
+			<p id="location-error"></p>
+		  </div>
+		  <div class="col-12 text-center">
+			<div id="mapContainer">
+			  <div id="map" class="map"></div>
 			</div>
+		  </div>
 		</div>
-	</div>
-	<div id="map" class="map col-xs-offset-1"></div>
+	  </div>
 </body>
 
 {% endblock %}

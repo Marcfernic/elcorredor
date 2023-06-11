@@ -2,15 +2,11 @@
 {% block content %}
 <body>
 
-  <div class="container-fluid">
+  <div class="container-fluid data-box  text-center">
     <div class="row">
       <div class="col-sm-12">
-        <div class="panel">
-          <h1 class="col-xs-offset-1 col-sm-offset-3 col-md-offset-4 col-lg-offset-5">Email verificado correctamente</h1>
-
-          {% if not request.user.is_authenticated %}
-            <p class="col-xs-offset-1 col-sm-offset-2 col-md-offset-4 col-lg-offset-5">Ya puedes <a href="{% url 'login'%}">Loguearte</a></p>
-          {% endif %}
+        <div class="">
+          <h1 class="">Email verificado correctamente</h1>
         </div>
       </div>
     </div>
