@@ -37,7 +37,7 @@ def proFloor(floor, ex):
     num = 0
     options = ""
     if ex == "No tenemos acceso a este dato":
-        pass
+        lis = []
     else:
         try:
             a = len(floor['consulta_dnp']['bico']['lcons']['cons'])
@@ -190,17 +190,20 @@ def extractProv(street):
     a = street
     b = c = ""
     
-    for x in reversed(a):
-        if x == "(":
-            break
-        else:
-            b = b + x
-    
-    for y in reversed(b):
-        if y ==")":
-            break
-        else:
-            c = c + y
+    try:
+        for x in reversed(a):
+            if x == "(":
+                break
+            else:
+                b = b + x
+        
+        for y in reversed(b):
+            if y ==")":
+                break
+            else:
+                c = c + y
+    except:
+        pass
 
     return c
 
@@ -209,21 +212,23 @@ def extractMun(street):
     a = street
     b = c = d = ""
     
-    for x in a:
-        if x == "(":
-            break
-        else:
-            b=b+x
+    try:
+        for x in a:
+            if x == "(":
+                break
+            else:
+                b=b+x
 
-    for y in reversed(b):
-        if y.isdigit() or y == ".":
-            break
-        else:
-            c = c+y     
-    
-    for z in reversed(c):
-        d = d + z
+
+for y in reversed(b):
+            if y.isdigit() or y == ".":
+                break
+            else:
+                c = c+y     
+        
+        for z in reversed(c):
+            d = d + z
+    except:
+        pass
     
     return d.lstrip()
-
-

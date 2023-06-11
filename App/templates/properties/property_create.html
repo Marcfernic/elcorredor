@@ -1,39 +1,58 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-
-<div class="row">
-  <div class="col-xs-10 col-xs-offset-1 col-sm-offset-2 col-md-offset-2 panel">
-    <h1 class="col-xs-offset-1 col-sm-offset-2 col-lg-offset-4">Registro de propiedad</h1>
-    <form action="{% url 'create_property' %}" method="post">
-      {% csrf_token %}
-      <div class="form-group">
-        <div class="col-sm-4 col-md-3 col-sm-offset-2 col-md-offset-1">
-          <label for="catastral_reference">Referencia catastral</label>
+<div class="container-fluid data-box">
+  <div class="row">
+    <div class="col-sm-12">
+      <h1 class="text-center" style="font-weight: bold; margin-bottom: 20px;">Registro de propiedad</h1>
+      <form action="{% url 'create_property' %}" method="post">
+        {% csrf_token %}
+        <div class="row" style="margin-bottom: 10px;">
+          <div class="col-sm-4 col-md-3 text-center" style="margin-bottom: 20px;">
+            <label for="catastral_reference">Ingresa la referencia catastral</label>
+          </div>
+          <div class="col-sm-6 col-md-6 text-center">
+            <input type="text" required="" pattern=".{14}" title="La referencia catastral debe tener 14 caracteres" maxlength="14" id="catastral_reference" name="catastral_reference" class="form-control" value="{{ catastral_reference }}" placeholder="[Los primeros 14 caracteres]">
+          </div>
         </div>
-        <div class="col-sm-5 col-lg-6 col-md-offset-1 col-lg-offset-0">
-          <input type="text" required="" pattern=".{14}" title="La referencia catastral debe tener 14 carácteres" maxlength="14" id="catastral_reference" name="catastral_reference" class="form-control" value="{{ catastral_reference }}" placeholder="[Los primeros 14 carácteres]"></input>
+        {% if catastral_reference_errors is not None %}
+          <div class="row">
+            <div class="col-12 mb-3">
+              <div class="col-sm-4 col-md-3"></div>
+              <div class="col-sm-6 col-md-6">
+                <ul class="errorlist" style="margin-top: 10px; margin-bottom: 10px;">
+                  {% for error in catastral_reference_errors %}
+                    <li>{{ error }}</li>
+                  {% endfor %}
+                </ul>
+              </div>
+            </div>
+          </div>
+        {% endif %}
+        <div class="row" style="margin-bottom: 10px;">
+          <div class="col-sm-4 col-md-3 text-center " style="margin-bottom: 10px; margin-top: 10px;">
+            <label for="price">Ingresa el precio de la porpiedad</label>
+          </div>
+          <div class="col-sm-6 col-md-6 text-center">
+            <input type="number" required="" id="price" name="price" step="0.01" class="form-control" value="{{ price }}" placeholder="0,00 €">
+          </div>
         </div>
-      </div>
-      {% if catastral_reference_errors is not None %}
-        <p></p>
-        <ul class="errorlist">
-        {% for error in catastral_reference_errors %}
-        <li>{{ error }}</li>
-        {% endfor %}
-        </ul>
-        <p></p>
-      {% endif %}
-      <div class="form-group">
-        <div class="col-sm-3 col-lg-2 col-sm-offset-2">
-          <label for="price">Precio</label>
+        <div class="row">
+          <div class="col-12 text-center">
+            <div class="col-sm-4 col-md-3 ">
+              <button type="submit" style="background-color: #ffc75a; color: #fff; border: 1px solid #ffc75a;
+              border-radius: 4px; padding: 8px 16px; font-size: 14px; 
+              font-weight: bold; cursor: pointer; margin-top: 10px;" 
+              onmouseover="this.style.backgroundColor='#FFD966'; 
+              this.style.cursor='pointer';" onmouseout="this.style.backgroundColor='#ffc75a'; 
+              this.style.color='#fff'; this.style.cursor='pointer';">Ingresar propiedad</button>
+            </div>
+            <div class="col-sm-8 col-md-9"></div>
+          </div>
         </div>
-        <div class="col-sm-5 col-lg-6 col-sm-offset-1 col-md-offset-0">
-          <input type="number" required="" id="price" name="price"  step="0.01" class="form-control" value="{{ price }}" placeholder="0,00 €"></input>
-        </div>
-      </div>
-      <button type="submit" class="btn btn-primary navbar-btn col-xs-8 col-sm-4 col-xs-offset-2 col-sm-offset-4">Ingresar propiedad</button>
-    </form>
+      </form>
+    </div>
   </div>
 </div>
+
 {% endblock %}

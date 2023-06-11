@@ -3,44 +3,62 @@
 
 {% if user.is_superuser %}
 	{% if properties %}
-	<div class="row">
-	  <div class="col-xs-12 col-md-8 panel">
-	  	<h1>Estos son las propiedades que esperan a ser verificadas</h1>
-	    <table class="table">
-	      <thead>
-	        <tr>
-	          <th>Referencia catastral</th>
-	          <th>Precio</th>
-	          <th>A la venta desde</th>
-	          <th>Acciones</th>
-	        </tr>
-	      </thead>
-	      <tbody>
-	      {% for property in properties %}
-	        <tr>
-	          <td>{{ property.catastral_reference }}</td>
-	          <td>{{ property.price }}</td>
-	          <td>{{ property.created_at }}</td>
-	          <td>
-              <form action="{% url 'verify_property' %}" method="POST">
-                {% csrf_token %}
-                <input type="hidden" name="property_id" value="{{ property.id }}" />
-                <a href="#" class="success" onclick="this.parentNode.submit()">Verificar</a>
-              </form>
-            </td>
-	        </tr>
-	      {% endfor %}
-	      </tbody>
-	    </table>
-	  </div>
+	<div class="container-fluid data-box">
+		<div class="row">
+			<div class="col-xs-12 ">
+				<h1 class="text-center" style="font-weight: bold; margin-bottom: 20px;">Estas son las propiedades que esperan a ser verificadas</h1>
+			  <table class="table">
+				<thead>
+				  <tr>
+					<th>Referencia catastral</th>
+					<th>Precio</th>
+					<th>A la venta desde</th>
+					<th>Acciones</th>
+				  </tr>
+				</thead>
+				<tbody>
+				{% for property in properties %}
+				  <tr>
+					<td>{{ property.catastral_reference }}</td>
+					<td>{{ property.price }}</td>
+					<td>{{ property.created_at }}</td>
+					<td>
+					<form action="{% url 'verify_property' %}" method="POST">
+					  {% csrf_token %}
+					  <input type="hidden" name="property_id" value="{{ property.id }}" />
+					  <a href="#" style="background-color: #5d9e61; color: #fff; border: 1px solid #569e4f;
+					  border-radius: 4px; padding: 8px 16px; font-size: 14px; 
+					  font-weight: bold; cursor: pointer; margin-top: 10px;" 
+					  onmouseover="this.style.backgroundColor='#569e4f'; 
+					  this.style.cursor='pointer';" onmouseout="this.style.backgroundColor='#5d9e61'; 
+					  this.style.color='#fff'; this.style.cursor='pointer';"
+					   onclick="this.parentNode.submit()">Verificar</a>
+					</form>
+					</td>
+					<td>
+						<!-- Nuevo form con apariencia de botón para formatear-->
+						<form action="{% url 'unverify_property' %}" method="POST">
+	            {% csrf_token %}
+	            <input type="hidden" name="property_id" value="{{ property.id }}" />
+	            <a href="#" class="danger" onclick="this.parentNode.submit()">Denegar</a>
+	          </form>
+				  </td>
+				  </tr>
+				{% endfor %}
+				</tbody>
+			  </table>
+			</div>
+		  </div>
+
 	</div>
+	
 	{% else %}
 	  <p class="col-xs-offset-5">No tienes ninguna propiedad que espere a estar verificada; ¡Enhorabuena!</p>
 	{% endif %}
 {% else %}
-	<div class="panel">
-	  <h1 class="col-xs-offset-4 col-sm-offset-5">Error</h1>
-	  <p class="col-xs-offset-1 col-sm-offset-3">No tiene autorizacion para visualizar el contenido</p>
+	<div class="">
+	  <h1 class="">Error</h1>
+	  <p class="">No tiene autorizacion para visualizar el contenido</p>
 	</div>
 {% endif %}
 

@@ -1,13 +1,14 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-<div class="row">
-  <div class="col-xs-12 col-md-3 panel">
-	<h1 class="col-xs-offset-3">Solicitud para añadir tu propiedad recibida</h1>
+<div class="container-fluid data-box  text-center"><div class="row">
+  <div class="col-xs-12 ">
+	<h1 class="">Solicitud para añadir tu propiedad recibida</h1>
 
 	<p>Te hemos enviado un correo electrónico explicando lo que debes hacer para que tu propiedad sea publicada en nuestro sitio web.<br>La propiedad no será publicada y los usuarios no podrán ver que tu propiedad está a la venta hasta que no completes todos los pasos detallados en el correo electrónico.<br>Si tienes cualquier duda o pregunta sobre el proceso, no dudes en mandarnos un correo electrónico a <a href="mailto:soporte@elcorredor.org">soporte@elcorredor.org</a></p>
 
-	<p class="col-xs-offset-1 col-sm-offset-3">Puedes ver el listado de tus propiedades en <a href="{% url 'user_profile' %}">Tu perfil de usuario</a></p>
+	<p class="">Puedes ver el listado de tus propiedades en <a href="{% url 'user_profile' %}">Tu perfil de usuario</a></p>
   </div>
-</div>
+</div></div>
+
 {% endblock %}

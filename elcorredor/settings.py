@@ -28,7 +28,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'c5c^t@$8l=k61-2^8)*ek-v%4wjv)@
 DEBUG_ENV = int(os.environ.get('DJANGO_DEBUG', '1'))
 DEBUG = bool(DEBUG_ENV)
 
-ALLOWED_HOSTS = ["localhost", "elcorredor.org"]
+ALLOWED_HOSTS = ["localhost","127.0.0.1", "elcorredor.org"]
 DEVELOPMENT_URL = 'http://localhost:8000'
 
 # Security setup for production

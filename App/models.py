@@ -62,3 +62,6 @@ class Property(models.Model):
     def verify(self):
         self.verified = True
         self.save()
+
+    def unverify(self):
+        self.delete()

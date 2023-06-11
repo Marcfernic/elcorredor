@@ -3,16 +3,16 @@
 {% block content %}
 <body>
 
-  <div class="container-fluid">
+  <div class="container-fluid data-box">
     
     {% if request.user.id == user.id %}
     
     <div class="row">
-      <div class="col-xs-12 col-md-10 col-sm-offset-1 col-md-offset-2 panel">
-        <h1 class="col-xs-offset-1 col-sm-offset-2 col-lg-offset-4">Modificar datos de usuario</h1>
+      <div class="col-xs-12 text-center">
+        <h1 class="" style="font-weight: bold; margin-bottom: 20px;">Modificar datos de usuario</h1>
         <form method="post" enctype="multipart/form-data">
           {% csrf_token %}
-          <div class="form-group">
+          <div  class="row" style="margin-bottom: 10px;">
             <div class="col-sm-3 col-lg-2 col-sm-offset-2">
               <label>Nombre</label>
             </div>
@@ -20,26 +20,46 @@
               <input type="text" name="first_name" class="form-control" value="{{ user.first_name }}"></input>
             </div>
           </div>
-          <div class="form-group">
+          <div class="row">
             <div class="col-sm-3 col-md-3 col-lg-2 col-sm-offset-2">
               <label>Apellidos</label>
+              <br>
+              
             </div>
             <div class="col-sm-5 col-lg-6 col-sm-offset-0">
               <input type="text" name="last_name" class="form-control" value="{{ user.last_name }}"></input>
             </div>
           </div>
-          <button type="submit" class="btn btn-info navbar-btn col-xs-offset-3 col-sm-offset-5">Guardar cambios</button>
+          <div class="row">
+            <div class="col-sm-3 col-md-3 col-lg-2 col-sm-offset-2">
+              <button type="submit" style="background-color: #ffc75a; color: #fff; border: 1px solid #ffc75a;
+              border-radius: 4px; padding: 8px 16px; font-size: 14px; 
+              font-weight: bold; cursor: pointer; margin-top: 10px;" 
+              onmouseover="this.style.backgroundColor='#FFD966'; 
+              this.style.cursor='pointer';" onmouseout="this.style.backgroundColor='#ffc75a'; 
+              this.style.color='#fff'; this.style.cursor='pointer';">Guardar cambios</button>
+              <br>
+              
+            </div>
+            <div class="col-sm-5 col-lg-6 col-sm-offset-0">
+            </div>
+          </div>
+
+
+
+         
+        
         </form>
       </div>
     </div>
     
     {% else %}
     
-    <div class="row">
-      <div class="col-xs-12 col-md-3">
-        <div class="panel">
-          <h1 class="col-xs-offset-1 col-sm-offset-3 col-md-offset-5 col-lg-offset-6">Error</h1>
-          <p class="col-xs-offset-1 col-sm-offset-2 col-md-offset-3 col-lg-offset-4">No tiene autorizacion para modificar el contenido</p>
+    <div class="row  text-center">
+      <div class="col-xs-12 ">
+        <div class="">
+          <h1 class="">Error</h1>
+          <p class="">No tiene autorizacion para modificar el contenido</p>
         </div>
       </div>
     </div>
