@@ -10,7 +10,7 @@ from django.utils.crypto import get_random_string
 from django.utils.decorators import method_decorator
 from django.core.exceptions import ObjectDoesNotExist
 from .models import User, Verification, Property
-from App.libs import PyCatastro, GoogleApi
+from App.libs import PyCatastro
 from App.mailer import Mailer
 from App.forms import UserForm, PropertyForm
 from App.decorators import verification_required
@@ -18,9 +18,6 @@ from App.catastro import *
 
 class Index(View):
     def get(self, request):
-        par = GoogleApi.Consulta_RCXY("4259712VK8245N")
-        print(par)
-        print(1)
         return render(request, 'index.html')
 
 
@@ -218,53 +215,78 @@ class EmailVerified(View):
 class Catastro(View):
 
     def get(self, request):
-        latitude = request.GET.get('latitude', '')
-        longitude = request.GET.get('longitude', '')
-        res = PyCatastro.Consulta_RCCOOR('EPSG:4258', longitude, latitude)
-        if res['consulta_coordenadas']['control']['cucoor'] == '1':
-            address = res['consulta_coordenadas']['coordenadas']['coord']['ldt']
-            catastral_reference = res['consulta_coordenadas']['coordenadas']['coord']['pc']['pc1'] + res['consulta_coordenadas']['coordenadas']['coord']['pc']['pc2']
-            if Property.objects.filter(catastral_reference = catastral_reference, verified = True).count() != 0:
-                property = Property.objects.get(catastral_reference = catastral_reference, verified = True)
+        try:
+            latitude = request.GET.get('latitude', '')
+            longitude = request.GET.get('longitude', '')
+            res = PyCatastro.Consulta_RCCOOR('EPSG:4258', longitude, latitude)
+            if res['consulta_coordenadas']['control']['cucoor'] == '1':
+                address = res['consulta_coordenadas']['coordenadas']['coord']['ldt']
+                catastral_reference = res['consulta_coordenadas']['coordenadas']['coord']['pc']['pc1'] + res['consulta_coordenadas']['coordenadas']['coord']['pc']['pc2']
+                if Property.objects.filter(catastral_reference = catastral_reference, verified = True).count() != 0:
+                    property = Property.objects.get(catastral_reference = catastral_reference, verified = True)
+                else:
+                    property = None
+                print("Referencia catastral:", catastral_reference)
+                print("Direccion:", address)
+                print(latitude, longitude)
+                prov = extractProv(address)
+                print(prov)
+                mun = extractMun(address)
+                print(mun)
+                inm = PyCatastro.Consulta_DNPRC_Codigos(prov, mun, catastral_reference)
+                print("inmueble:", inm)
+                cla = sayCla(inm)
+                print("Clase", cla)
+                us = sayUs(inm)
+                print("Uso", us)
+                typ = proTyp(inm, us)
+                print("Tipos:", typ)
+                floor = proFloor(inm, us)
+                print("Superficie:", floor)
+                mez = mix(typ,floor)
+                print("Datos:", mez)
+                print(address)
+
+                #if (address != None and address != "") and (catastral_reference != None and catastral_reference != "") and 
+                #(address != None and address != "") and (catastral_reference != None and catastral_reference != ""):
+
+                return render(request, 'catastro_found.html', context = {'address': address, 'longitude' : longitude,
+                'catastral_reference': catastral_reference, 'cla' : cla, 'us' : us, 'latitude': latitude, 'mez' : mez,
+                'provincie': prov, 'municipality': mun,'property': property})
+            
+            elif res['consulta_coordenadas']['control']['cuerr'] == '1':
+                mensaje = res['consulta_coordenadas']['lerr']['err']['des']
+                return render(request, 'catastro_not_found.html', context = {'mensaje': mensaje})
+            
             else:
-                property = None
-            print("Referencia catastral:", catastral_reference)
-            print("Direccion:", address)
-            prov = extractProv(address)
-            print(prov)
-            mun = extractMun(address)
-            print(mun)
-            inm = PyCatastro.Consulta_DNPRC_Codigos(prov, mun, catastral_reference)
-            print("inmueble:", inm)
-            cla = sayCla(inm)
-            print("Clase", cla)
-            us = sayUs(inm)
-            print("Uso", us)
-            typ = proTyp(inm, us)
-            print("Tipos:", typ)
-            floor = proFloor(inm, us)
-            print("Superficie:", floor)
-            mez = mix(typ,floor)
-            print("Datos:", mez)
-            return render(request, 'catastro_found.html', context = {'address': address, 
-            'catastral_reference': catastral_reference, 'cla' : cla, 'us' : us,
-            'mez' : mez, 'property': property})
-        
-        elif res['consulta_coordenadas']['control']['cuerr'] == '1':
-            mensaje = res['consulta_coordenadas']['lerr']['err']['des']
-            return render(request, 'catastro_not_found.html', context = {'mensaje': mensaje})
-        
-        else:
+                return render(request, 'catastro_error.html',)
+        except:
             return render(request, 'catastro_error.html',)
 
 
 
 @method_decorator(login_required, name = 'dispatch')
 @method_decorator(verification_required, name = 'dispatch')
-class PropertyCreate(CreateView):
-    model= Property
-    template_name = 'property_create.html'
-    fields = ['catastral_reference', 'price']
+class PropertyCreate(View):
+    
+    def get(self, request):
+
+        latitude = request.GET.get('latitude', '')
+        longitude = request.GET.get('longitude', '')
+        catastral_reference = request.GET.get('catastral_reference', '')
+        provincie = request.GET.get('provincie', '')
+        municipality = request.GET.get('municipality', '')
+        address = request.GET.get('address', '')
+        price = request.GET.get('price', '')
+        
+        template_name = 'property_create.html'
+        
+        context = {'catastral_reference' : catastral_reference, 'latitude' : latitude, 'longitude' : longitude, 
+        'provincie' : provincie, 'municipality' : municipality, 'address' : address, 'price' : price}
+        
+        return render(request, template_name, context)
+
+
 
 
 @method_decorator(login_required, name = 'dispatch')
@@ -274,13 +296,22 @@ class CreateProperty(View):
         fields = {
             'catastral_reference': request.POST.get('catastral_reference', ''),
             'price': request.POST.get('price', ''),
+            'latitude' : request.POST.get('latitude', ),
+            'longitude' : request.POST.get('longitude', ),
+            'provincie' : request.POST.get('provincie', ),
+            'municipality' : request.POST.get('municipality', ),
+            'address' : request.POST.get('address', )
         }
         fields['form'] = PropertyForm()
+        
         if Property.objects.filter(catastral_reference = fields['catastral_reference']).count() != 0:
             fields['catastral_reference_errors'] = ['La referencia catastral ya ha sido introducida por otro usuario']
-            return render(request, PropertyCreate().template_name, context = fields)
+            return render(request, 'property_create.html', context = fields)
         else:
-            new_property = Property.objects.create(catastral_reference = fields['catastral_reference'], price = fields['price'], user = request.user)
+            new_property = Property.objects.create(catastral_reference = fields['catastral_reference'], 
+                price = fields['price'], user = request.user, address = fields['address'],
+                latitude = fields['latitude'], longitude = fields['longitude'], 
+                provincie = fields['provincie'], municipality = fields['municipality'])
             Mailer.send_email_create_property(new_property)
             return render(request, 'property_created.html')
 

@@ -5,24 +5,46 @@
 		<div class="row">
 		  <div class="col-xs-12 col-md-8 panel">
 		  	<h1>Estos son las propiedades que coinciden con tus resultados</h1>
+		  	<h2>Seleccione provincia</h2>
+			<!-- Select de provincias -->
+			<select id="ps-prov"  onchange="myFunction()"></select>
+			<!-- Select de municipios -->
+			<select id="ps-mun"  onchange="myFunction()"></select>
+			<p id=resultados></p>
 		    <table class="table">
-		      <thead>
-		        <tr>
-		          <th>Referencia catastral</th>
-		          <th>Precio</th>
-		          <th>A la venta desde</th>
-		          <th>Acciones</th>
-		        </tr>
-		      </thead>
-		      <tbody>
-		      {% for property in properties %}
-		        <tr>
-		          <td>{{ property.catastral_reference }}</td>
-		          <td>{{ property.price }}</td>
-		          <td>{{ property.created_at }}</td>
-		          <td>
-              	<button></button>
-            	</td>
+				<thead>
+				  <tr>
+					<th>Referencia catastral</th>
+					<th>Povincia</th>
+					<th>Municipio</th>
+					<th>Dirección</th>
+					<th>Precio</th>
+					<th>Propietario</th>
+					<th>A la venta desde</th>
+					<th>Acciones</th>
+				  </tr>
+				</thead>
+				<tbody>
+				{% for property in properties %}
+				  <tr>
+					<td>{{ property.catastral_reference }}</td>
+					<td>{{ property.provincie }}</td>
+					<td>{{ property.municipality }}</td>
+					<td>{{ property.address }}</td>
+					<td>{{ property.price }}</td>
+					<td>
+						<a href="{% url 'property_contact' property.catastral_reference %}">{{ property.user }}</a>
+					</td>
+					<td>{{ property.created_at }}</td>
+					<td>
+	              		<!-- Nuevo form con apariencia de botón para formatear-->
+						<form action="{% url 'catastro' %}" method="GET">
+					      {% csrf_token %}
+					        <input type="hidden" name="latitude" value="{{ property.latitude }}" />
+					        <input type="hidden" name="longitude" value="{{ property.longitude }}" />
+					        <a href="#" class="primary" onclick="this.parentNode.submit()">Observar</a>
+					    </form>
+            	  	</td>
 		        </tr>
 		      {% endfor %}
 		      </tbody>
@@ -32,5 +54,20 @@
 	{% else %}
 	  <p class="col-xs-offset-5"> Lo lamento pero no hay ninguna propiedad que coincida con tu busqueda</p>
 	{% endif %}
+	<script>
+		// Crear el selector pasandole los elementos del dom.
+		var prov = document.getElementById('ps-prov');
+		var mun = document.getElementById('ps-mun');
+		new Pselect().create(prov, mun);
 
+		function myFunction() {
+		  var x = document.getElementById("ps-prov").value;
+		  var y = document.getElementById("ps-mun").value;
+		  const Pselect = require('pselect.js');
+		  var a = Pselect.provincesData[x]  // {id: "04", nm: "Almería"}
+		  var b = Pselect.municipesData[y] // {id: "01002", nm: "Amurrio"}
+		  document.getElementById("resultados").innerHTML = "You selected: " + a + b;
+		}
+
+	</script>
 {% endblock %}
