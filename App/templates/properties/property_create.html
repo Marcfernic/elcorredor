@@ -5,52 +5,88 @@
   <div class="row">
     <div class="col-sm-12">
       <h1 class="text-center" style="font-weight: bold; margin-bottom: 20px;">Registro de propiedad</h1>
-      <form action="{% url 'create_property' %}" method="post">
-        {% csrf_token %}
-        <div class="row" style="margin-bottom: 10px;">
-          <div class="col-sm-4 col-md-3 text-center" style="margin-bottom: 20px;">
-            <label for="catastral_reference">Ingresa la referencia catastral</label>
+      {% if address != None and address != "" and latitude != None and latitude != "" and longitude != None and longitude != "" and provincie != None and provincie != "" and municipality != None and municipality != "" %}
+        <p>Por favor, verifica que efectivamente, se tratan de los datos de tu propiedad y complementala para ingresarla</p>
+        <form action="{% url 'create_property' %}" method="post">
+          {% csrf_token %}
+          <div class="row" style="margin-bottom: 10px;">
+            <div class="col-sm-4 col-md-3 text-center" style="margin-bottom: 20px;">
+              <label for="catastral_reference">Referencia catastral</label>
+            </div>
+            <div class="col-sm-6 col-md-6 text-center">
+              <input type="text" required="" pattern=".{14}" title="La referencia catastral debe tener 14 caracteres" maxlength="14" id="catastral_reference" name="catastral_reference" class="form-control" value="{{ catastral_reference }}" placeholder="{{ catastral_reference }}" readonly>
+            </div>
           </div>
-          <div class="col-sm-6 col-md-6 text-center">
-            <input type="text" required="" pattern=".{14}" title="La referencia catastral debe tener 14 caracteres" maxlength="14" id="catastral_reference" name="catastral_reference" class="form-control" value="{{ catastral_reference }}" placeholder="[Los primeros 14 caracteres]">
+          <div class="row" style="margin-bottom: 10px;">
+            <div class="col-sm-4 col-md-3 text-center" style="margin-bottom: 20px;">
+              <label for="latitude">Latitud</label>
+            </div>
+            <div class="col-sm-6 col-md-6 text-center">
+              <input type="text" required="" pattern=".{20}" maxlength="20" id="latitude" name="latitude" title="La latitud puede tener 20 caracteres" class="form-control" value="{{ latitude }}" placeholder="{{ latitude }}" readonly>
+            </div>
           </div>
-        </div>
-        {% if catastral_reference_errors is not None %}
+          <div class="row" style="margin-bottom: 10px;">
+            <div class="col-sm-4 col-md-3 text-center" style="margin-bottom: 20px;">
+              <label for="longitude">Longitud</label>
+            </div>
+            <div class="col-sm-6 col-md-6 text-center">
+              <input type="text" required="" pattern=".{20}" maxlength="20" id="longitude" name="longitude" title="La Longitud puede tener 20 caracteres" class="form-control" value="{{ longitude }}" placeholder="{{ longitude }}" readonly>
+            </div>
+          </div>
+          <div class="row" style="margin-bottom: 10px;">
+            <div class="col-sm-4 col-md-3 text-center" style="margin-bottom: 20px;">
+              <label for="provincie">Provincia</label>
+            </div>
+            <div class="col-sm-6 col-md-6 text-center">
+              <input type="text" required="" pattern=".{30}" maxlength="30" id="provincie" name="provincie" title="La provincia puede tener 30 caracteres"class="form-control" value="{{ provincie }}" placeholder="{{ provincie }}" readonly>
+            </div>
+          </div>
+          <div class="row" style="margin-bottom: 10px;">
+            <div class="col-sm-4 col-md-3 text-center" style="margin-bottom: 20px;">
+              <label for="municipality">Municipio</label>
+            </div>
+            <div class="col-sm-6 col-md-6 text-center">
+              <input type="text" required="" pattern=".{40}" maxlength="40" id="municipality" name="municipality" title="El Municipio puede tener 40 caracteres" class="form-control" value="{{ municipality }}" placeholder="{{ municipality }}" readonly>
+            </div>
+          </div>
+          <div class="row" style="margin-bottom: 10px;">
+            <div class="col-sm-4 col-md-3 text-center" style="margin-bottom: 20px;">
+              <label for="address">Dirección</label>
+            </div>
+            <div class="col-sm-6 col-md-6 text-center">
+              <input type="text" required="" pattern=".{200}" maxlength="200" id="address" name="address" title="La dirección puede tener 200 caracteres" class="form-control" value="{{ address }}" placeholder="{{ address }}" readonly>
+            </div>
+          </div>
+          <div class="row" style="margin-bottom: 10px;">
+            <div class="col-sm-4 col-md-3 text-center " style="margin-bottom: 10px; margin-top: 10px;">
+              <label for="price">Ingresa el precio de la porpiedad</label>
+            </div>
+            <div class="col-sm-6 col-md-6 text-center">
+              <input type="number" required="" id="price" name="price" step="0.01" class="form-control" value="{{ price }}" placeholder="0,00 €" min="0.00">
+            </div>
+          </div>
           <div class="row">
-            <div class="col-12 mb-3">
-              <div class="col-sm-4 col-md-3"></div>
-              <div class="col-sm-6 col-md-6">
-                <ul class="errorlist" style="margin-top: 10px; margin-bottom: 10px;">
-                  {% for error in catastral_reference_errors %}
-                    <li>{{ error }}</li>
-                  {% endfor %}
-                </ul>
+            <div class="col-12 text-center">
+              <div class="col-sm-4 col-md-3 ">
+                <button type="submit" style="background-color: #ffc75a; color: #fff; border: 1px solid #ffc75a;
+                border-radius: 4px; padding: 8px 16px; font-size: 14px; 
+                font-weight: bold; cursor: pointer; margin-top: 10px;" 
+                onmouseover="this.style.backgroundColor='#FFD966'; 
+                this.style.cursor='pointer';" onmouseout="this.style.backgroundColor='#ffc75a'; 
+                this.style.color='#fff'; this.style.cursor='pointer';">Ingresar propiedad</button>
               </div>
+              <div class="col-sm-8 col-md-9"></div>
             </div>
           </div>
-        {% endif %}
-        <div class="row" style="margin-bottom: 10px;">
-          <div class="col-sm-4 col-md-3 text-center " style="margin-bottom: 10px; margin-top: 10px;">
-            <label for="price">Ingresa el precio de la porpiedad</label>
-          </div>
-          <div class="col-sm-6 col-md-6 text-center">
-            <input type="number" required="" id="price" name="price" step="0.01" class="form-control" value="{{ price }}" placeholder="0,00 €">
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-12 text-center">
-            <div class="col-sm-4 col-md-3 ">
-              <button type="submit" style="background-color: #ffc75a; color: #fff; border: 1px solid #ffc75a;
-              border-radius: 4px; padding: 8px 16px; font-size: 14px; 
-              font-weight: bold; cursor: pointer; margin-top: 10px;" 
-              onmouseover="this.style.backgroundColor='#FFD966'; 
-              this.style.cursor='pointer';" onmouseout="this.style.backgroundColor='#ffc75a'; 
-              this.style.color='#fff'; this.style.cursor='pointer';">Ingresar propiedad</button>
-            </div>
-            <div class="col-sm-8 col-md-9"></div>
+        </form>
+      {% else %}
+        <div class="col-12 text-center">
+          <p>Por favor, previamente, localiza tu propiedad</p>
+          <div id="mapContainer">
+            <div id="map" class="map"></div>
           </div>
         </div>
-      </form>
+      {% endif %}
     </div>
   </div>
 </div>

@@ -50,7 +50,10 @@ def proFloor(floor, ex):
                 num = b
             options = "a"
         except:
-            num = len(floor['consulta_dnp']['bico']['lspr'])
+            try:
+                num = len(floor['consulta_dnp']['bico']['lspr'])
+            except:
+                num = 1
             options = "b"
         finally:
             lis = []
@@ -69,7 +72,10 @@ def proFloor(floor, ex):
             elif num == 1:
                 try:
                     try:
-                        lis.append(floor['consulta_dnp']['bico']['lcons']['cons']['dfcons']['stl'])
+                        try:
+                            lis.append(floor['consulta_dnp']['bico']['bi']['debi']['cpt'])
+                        except:
+                            lis.append(floor['consulta_dnp']['bico']['lcons']['cons']['dfcons']['stl'])
                     except:
                         lis.append(floor['consulta_dnp']['bico']['lspr']['spr']['dspr']['ssp'])
                 except:
@@ -121,10 +127,14 @@ def proTyp(typ, ex):
                 num = b
             options = "a"
         except: 
-            num = len(typ['consulta_dnp']['bico']['lspr'])
+            try:
+                num = len(typ['consulta_dnp']['bico']['lspr'])
+            except:
+                num = 1
             options = "b"      
         finally:
             lis = []
+            
             if num > 1:
                 for n in range(0,num,1):
                     try: 
@@ -140,7 +150,10 @@ def proTyp(typ, ex):
             elif num == 1:
                 try: 
                     try:
-                        lis.append(typ['consulta_dnp']['bico']['lcons']['cons'][0]['lcd'])
+                        try:
+                            lis.append(typ['consulta_dnp']['bico']['bi']['debi']['luso'])
+                        except:
+                            lis.append(typ['consulta_dnp']['bico']['lcons']['cons'][0]['lcd'])
                     except:
                         lis.append(typ['consulta_dnp']['bico']['lspr']['spr'][0]['dspr']['dcc'])
                 except:
@@ -155,7 +168,7 @@ def proTyp(typ, ex):
                     except:
                         lis.append(typ['consulta_dnp']['bico']['lcons']['cons'][0]['lcd'])
                 elif options == "b":
-                    lis.append(typ['consulta_dnp']['bico']['lspr']['spr']['dspr']['dcc'])
+                   lis.append(typ['consulta_dnp']['bico']['lspr']['spr']['dspr']['dcc'])
 
     return lis
 
@@ -220,7 +233,7 @@ def extractMun(street):
                 b=b+x
 
 
-for y in reversed(b):
+        for y in reversed(b):
             if y.isdigit() or y == ".":
                 break
             else:

@@ -41,7 +41,12 @@ class Verification(models.Model):
 
 
 class Property(models.Model):
-    catastral_reference = models.CharField(max_length=14, help_text="Introduce solo los primeros 14 caracteres de la referencia", unique = True)
+    catastral_reference = models.CharField(max_length=14, unique = True)
+    latitude = models.CharField(max_length=20, default="-")
+    longitude = models.CharField(max_length=20, default="-")
+    provincie = models.CharField(max_length=30, default="Sin registrar")
+    municipality = models.CharField(max_length=40, default="Sin declarar")
+    address = models.CharField(max_length=200, default="Sin informacion")
     price = models.FloatField(blank = False, null = False)
     verified = models.BooleanField(default =  False)
     created_at = models.DateTimeField(default = now)

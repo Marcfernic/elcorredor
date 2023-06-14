@@ -517,32 +517,3 @@ class PyCatastro(object):
         url = cls.base_url + "/OVCCoordenadas.asmx/Consulta_CPMRC"
         response = requests.get(url, params=params)
         return xmltodict.parse(response.content, process_namespaces=False, xml_attribs=False)
-
-
-class GoogleApi(object):   
-    
-    @classmethod
-    def Consulta_RCXY(cls, rc): 
-                
-        referencia = rc
-        api_key = 'AIzaSyDieJX5WuPpFPRPozv5od68wHO60cvsduI'
-        case_url = f"https://maps.googleapis.com/maps/api/geocode/json?address={referencia}&key={api_key}"
-
-        response = requests.get(case_url)
-        data = response.json()
-
-        if response.status_code == 200 and data['status'] == 'OK':
-            location = data['results'][0]['geometry']['location']
-            latitude = location['lat']
-            longitude = location['lng']
-            return latitude, longitude
-        else:
-            return None
-
-        coordenadas = convertir_referencia_catastral(referencia)
-
-        if coordenadas:
-            print(f"Latitud: {coordenadas[0]}")
-            print(f"Longitud: {coordenadas[1]}")
-        else:
-            print("No se encontraron coordenadas para la referencia catastral.")
