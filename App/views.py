@@ -394,9 +394,26 @@ class PropertyContacted(View):
     def get(self, request):
         return render(request, 'property_contacted.html')
 
-@method_decorator(login_required, name = 'dispatch')
-@method_decorator(verification_required, name = 'dispatch')
+
 class SearchProperties(View):
     def get(self, request):
         properties = Property.objects.filter(verified = True)
-        return render(request, 'search_properties.html', context = {'properties': properties})
+        users = User.objects.get.all()
+        valor1 = request.GET.get('valor1', '')
+        valor2 = request.GET.get('valor2', '')
+        valor3 = request.GET.get('valor3', '')
+        valor4 = request.GET.get('valor4', '')
+
+        if valor1 != '' and valor1 is not None:
+            properties = Property.objects.filter(provincie__icontains=valor1)
+
+        if valor2 != '' and valor2 is not None:
+            properties = Property.objects.filter(municipality__icontains=valor2)
+
+        if valor3 != '' and valor3 is not None:
+            properties = Property.objects.filter(address__icontains=valor3)
+
+        if valor4 != '' and valor4 is not None:
+            properties = Property.objects.filter(price__icontains=valor4)
+
+        return render(request, 'search_properties.html', context = {'properties': properties, 'users': users})
