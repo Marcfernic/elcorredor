@@ -1,11 +1,13 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-<div class="row">
-  <div class="col-xs-12 col-md-3 panel">
-	<h1 class="col-xs-offset-4">Propiedad eliminada</h1>
+	<div class="data-box container-fluid">
+    <div class="row text-center">
+		  <div class="col-xs-12">
+			<h1>Propiedad eliminada</h1>
 
-	<p class="col-xs-offset-1 col-sm-offset-3">Puedes ver el listado de tus propiedades en <a href="{% url 'user_profile' %}">Tu perfil de usuario</a></p>
-  </div>
-</div>
+			<p>Puedes ver el listado de tus propiedades en <a href="{% url 'user_profile' %}">Tu perfil de usuario</a></p>
+		  </div>
+		</div>
+	</div>
 {% endblock %}

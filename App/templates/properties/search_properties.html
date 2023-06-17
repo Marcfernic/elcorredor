@@ -1,73 +1,101 @@
 {% extends "base_generic.html" %}
 {% block content %}
 
-	{% if properties %}
-		<div class="row">
-		  <div class="col-xs-12 col-md-8 panel">
-		  	<h1>Estos son las propiedades que coinciden con tus resultados</h1>
-		  	<h2>Seleccione provincia</h2>
-			<!-- Select de provincias -->
-			<select id="ps-prov"  onchange="myFunction()"></select>
-			<!-- Select de municipios -->
-			<select id="ps-mun"  onchange="myFunction()"></select>
-			<p id=resultados></p>
-		    <table class="table">
-				<thead>
-				  <tr>
-					<th>Referencia catastral</th>
-					<th>Povincia</th>
-					<th>Municipio</th>
-					<th>Dirección</th>
-					<th>Precio</th>
-					<th>Propietario</th>
-					<th>A la venta desde</th>
-					<th>Acciones</th>
-				  </tr>
-				</thead>
-				<tbody>
-				{% for property in properties %}
-				  <tr>
-					<td>{{ property.catastral_reference }}</td>
-					<td>{{ property.provincie }}</td>
-					<td>{{ property.municipality }}</td>
-					<td>{{ property.address }}</td>
-					<td>{{ property.price }}</td>
-					<td>
-						<a href="{% url 'property_contact' property.catastral_reference %}">{{ property.user }}</a>
-					</td>
-					<td>{{ property.created_at }}</td>
-					<td>
-	              		<!-- Nuevo form con apariencia de botón para formatear-->
-						<form action="{% url 'catastro' %}" method="GET">
-					      {% csrf_token %}
-					        <input type="hidden" name="latitude" value="{{ property.latitude }}" />
-					        <input type="hidden" name="longitude" value="{{ property.longitude }}" />
-					        <a href="#" class="primary" onclick="this.parentNode.submit()">Observar</a>
-					    </form>
-            	  	</td>
-		        </tr>
-		      {% endfor %}
-		      </tbody>
-		    </table>
-		  </div>
+	<div class="data-box container-fluid">
+		<div class="row text-center">
+		  	<div class="col-xs-12">
+			  	<h1>Estos son las propiedades que coinciden con tus resultados</h1>
+			  	<main role="main" class="container">
+			    	<h3>Filtro</h3>
+				    <!-- Select de provincias -->
+				    <select id="ps-prov" onchange="mineFunction()"></select>
+				      <!-- Select de municipios -->
+				    <select id="ps-mun" onchange="mineFunction()"></select>
+				    <input type="text" id="address" onchange="mineFunction()" placeholder="Dirección">
+				    <input type="number" id="price" onchange="mineFunction()" placeholder="Precio">
+			    </main>
+		    	{% if properties %}
+			    	<table class="table">
+						<thead>
+						  <tr>
+							<th>Referencia catastral</th>
+							<th>Povincia</th>
+							<th>Municipio</th>
+							<th>Dirección</th>
+							<th>Precio</th>
+							<th>Propietario</th>
+							<th>A la venta desde</th>
+							<th>Acciones</th>
+						  </tr>
+						</thead>
+						<tbody>
+						{% for property in properties %}
+							<tr>
+								<td>{{ property.catastral_reference }}</td>
+								<td>{{ property.provincie }}</td>
+								<td>{{ property.municipality }}</td>
+								<td>{{ property.address }}</td>
+								<td>{{ property.price }}</td>
+								<td>
+									<a href="{% url 'property_contact' property.catastral_reference %}">{{ property.user }}</a>
+								</td>
+								<td>{{ property.created_at }}</td>
+								<td>
+				              		<!-- Nuevo form con apariencia de botón para formatear-->
+									<form action="{% url 'catastro' %}" method="GET">
+								      {% csrf_token %}
+								        <input type="hidden" name="latitude" value="{{ property.latitude }}" />
+								        <input type="hidden" name="longitude" value="{{ property.longitude }}" />
+								        <a href="#" class="primary" onclick="this.parentNode.submit()">Observar</a>
+								    </form>
+			            	  	</td>
+					        </tr>
+			      		{% endfor %}
+			      		{% else %}
+	  						<p class="text-center"> Lo lamento pero no hay ninguna propiedad que coincida con tu busqueda</p>
+						{% endif %}
+			      	</tbody>
+			    </table>
+		  	</div>
 		</div>
-	{% else %}
-	  <p class="col-xs-offset-5"> Lo lamento pero no hay ninguna propiedad que coincida con tu busqueda</p>
-	{% endif %}
-	<script>
-		// Crear el selector pasandole los elementos del dom.
-		var prov = document.getElementById('ps-prov');
-		var mun = document.getElementById('ps-mun');
-		new Pselect().create(prov, mun);
+	</div>
 
-		function myFunction() {
-		  var x = document.getElementById("ps-prov").value;
-		  var y = document.getElementById("ps-mun").value;
-		  const Pselect = require('pselect.js');
-		  var a = Pselect.provincesData[x]  // {id: "04", nm: "Almería"}
-		  var b = Pselect.municipesData[y] // {id: "01002", nm: "Amurrio"}
-		  document.getElementById("resultados").innerHTML = "You selected: " + a + b;
+<script>
+    // Crear el selector pasandole los elementos del dom.
+    var prov = document.getElementById('ps-prov');
+    var mun = document.getElementById('ps-mun');
+    var ps = new Pselect().create(prov, mun);
+
+	function mineFunction() {
+	    var x = document.getElementById("ps-prov").selectedIndex;
+	    var y = document.getElementById("ps-prov").options;
+	    var a = document.getElementById("ps-mun").selectedIndex;
+	    var b = document.getElementById("ps-mun").options;
+	    var prov = y[x].text 
+	    var mun =  b[a].text
+	    var ads = document.getElementById("address").value
+	    var price = document.getElementById("price").value
+		if (prov!="Provincia" && mun!="Municipio"){
+			enviarValores(prov, mun, ads, price);
 		}
+		else if (ads != ''){
+			enviarValores(prov, mun, ads, price);
+		}
+		else if (price != ''){
+			enviarValores(prov, mun, ads, price);
+		}
+	}
 
-	</script>
+	function enviarValores(prov, mun, ads, price) {
+	    var formData = new URLSearchParams();
+		formData.append('valor1', prov);
+		formData.append('valor2', mun);
+		formData.append('valor3', ads);
+		formData.append('valor4', price);
+	    var url = '/el-corredor/properties/search/?valor1=' + encodeURIComponent(valor1) + '&valor2=' + encodeURIComponent(valor2) + '&valor3=' + encodeURIComponent(valor3) + '&valor4=' + encodeURIComponent(valor4);  // Reemplaza con la URL de tu función en el backend
+	    // Realiza una solicitud POST al backend para enviar los valores
+	    window.location.href = url;
+	}
+</script>
+
 {% endblock %}
