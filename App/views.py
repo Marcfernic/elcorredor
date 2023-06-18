@@ -398,12 +398,12 @@ class PropertyContacted(View):
 class SearchProperties(View):
     def get(self, request):
         properties = Property.objects.filter(verified = True)
-        users = User.objects.get.all()
+
         valor1 = request.GET.get('valor1', '')
         valor2 = request.GET.get('valor2', '')
         valor3 = request.GET.get('valor3', '')
         valor4 = request.GET.get('valor4', '')
-
+        print(valor1,valor2,valor3,valor4)
         if valor1 != '' and valor1 is not None:
             properties = Property.objects.filter(provincie__icontains=valor1)
 
@@ -416,4 +416,4 @@ class SearchProperties(View):
         if valor4 != '' and valor4 is not None:
             properties = Property.objects.filter(price__icontains=valor4)
 
-        return render(request, 'search_properties.html', context = {'properties': properties, 'users': users})
+        return render(request, 'search_properties.html', context = {'properties': properties})
