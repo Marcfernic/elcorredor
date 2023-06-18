@@ -49,7 +49,7 @@ if os.environ.get('DJANGO_ENV', 'Development') == 'Production':
     X_FRAME_OPTIONS = 'DENY'
 
 # Email settings
-DEFAULT_FROM_EMAIL = 'no-reply@elcorredor.org'
+DEFAULT_FROM_EMAIL = '1642969@alu.murciaeduca.es'
 
 # Application definition
 

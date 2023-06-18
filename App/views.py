@@ -394,7 +394,8 @@ class PropertyContacted(View):
     def get(self, request):
         return render(request, 'property_contacted.html')
 
-
+@method_decorator(login_required, name = 'dispatch')
+@method_decorator(verification_required, name = 'dispatch')
 class SearchProperties(View):
     def get(self, request):
         properties = Property.objects.filter(verified = True)
@@ -403,7 +404,7 @@ class SearchProperties(View):
         valor2 = request.GET.get('valor2', '')
         valor3 = request.GET.get('valor3', '')
         valor4 = request.GET.get('valor4', '')
-        print(valor1,valor2,valor3,valor4)
+        
         if valor1 != '' and valor1 is not None:
             properties = Property.objects.filter(provincie__icontains=valor1)
 

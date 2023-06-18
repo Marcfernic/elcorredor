@@ -1,24 +1,24 @@
 from mailjet_rest import Client
-import os
 
 class Mailjet(object):
 
     @classmethod
     def send_email(cls, data):
-        API_KEY = os.environ.get('DJANGO_SMTP_USER', None)
-        API_SECRET = os.environ.get('DJANGO_SMTP_PASS', None)
+        API_KEY = "8e1f9bd3d15d633cc707c17672abcd57"  # Reemplaza "TU_API_KEY" con el valor real de tu clave de API
+        API_SECRET = "304fe9d954b204e1ad9329cd72c6c5aa"  # Reemplaza "TU_API_SECRET" con el valor real de tu secreto de API
 
-        if API_SECRET is not None:
-            mailjet = Client(auth=(API_KEY, API_SECRET), version='v3.1')
+        mailjet = Client(auth=(API_KEY, API_SECRET), version='v3.1')
 
-            mailjet_data = {'Messages': [{
+        mailjet_data = {
+            'Messages': [{
                 "From": {"Email": data['sender']},
                 "To": [{"Email": data['receiver']}],
                 "Subject": data['subject'],
                 "TextPart": data['message_txt'],
-                "HTMLPart": data['message_html']}]
-            }
+                "HTMLPart": data['message_html']
+            }]
+        }
 
-            result = mailjet.send.create(data=mailjet_data)
+        result = mailjet.send.create(data=mailjet_data)
 
-            return True if result.status_code == 200 else False
+        return True if result.status_code == 200 else False
