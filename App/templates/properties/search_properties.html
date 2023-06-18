@@ -8,12 +8,13 @@
 			  	<main role="main" class="container">
 			    	<h3>Filtro</h3>
 				    <!-- Select de provincias -->
-				    <select id="ps-prov" onchange="mineFunction()"></select>
+				    <select id="ps-prov" class="form-control" onchange="mineFunction()"></select>
 				      <!-- Select de municipios -->
-				    <select id="ps-mun" onchange="mineFunction()"></select>
-				    <input type="text" id="address" onchange="mineFunction()" placeholder="Dirección">
-				    <input type="number" id="price" onchange="mineFunction()" placeholder="Precio">
+				    <select id="ps-mun" class="form-control" onchange="mineFunction()"></select>
+				    <input type="text" id="address" class="form-control" onchange="mineFunction()" placeholder="Dirección">
+				    <input type="number" id="price" step="0.01" class="form-control" onchange="mineFunction()" placeholder="Precio" min="0.00" placeholder="0,00 €">
 			    </main>
+			    <br>
 		    	{% if properties %}
 			    	<table class="table">
 						<thead>
@@ -92,7 +93,7 @@
 		formData.append('valor2', mun);
 		formData.append('valor3', ads);
 		formData.append('valor4', price);
-	    var url = '/el-corredor/properties/search/?valor1=' + encodeURIComponent(valor1) + '&valor2=' + encodeURIComponent(valor2) + '&valor3=' + encodeURIComponent(valor3) + '&valor4=' + encodeURIComponent(valor4);  // Reemplaza con la URL de tu función en el backend
+	    var url = '/el-corredor/properties/search/?valor1=' + encodeURIComponent(prov) + '&valor2=' + encodeURIComponent(mun) + '&valor3=' + encodeURIComponent(ads) + '&valor4=' + encodeURIComponent(price);  // Reemplaza con la URL de tu función en el backend
 	    // Realiza una solicitud POST al backend para enviar los valores
 	    window.location.href = url;
 	}
